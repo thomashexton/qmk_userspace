@@ -1,2 +1,3 @@
-VIA_ENABLE = yes
-CAPS_WORD_ENABLE = yes
+VIA_ENABLE = no
+
+CONSOLE_ENABLE = yes
