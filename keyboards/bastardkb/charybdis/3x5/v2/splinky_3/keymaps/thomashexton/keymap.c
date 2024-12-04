@@ -2,8 +2,25 @@
 #include "thomashexton.h"
 
 #ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
-#    include "timer.h"
 #endif // CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
+
+#ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
+static uint16_t auto_pointer_layer_timer = 0;
+#   include "timer.h"
+#   ifndef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_TIMEOUT_MS
+#       define CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_TIMEOUT_MS 1000
+#   endif // CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_TIMEOUT_MS
+#   ifndef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_THRESHOLD
+#       define CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_THRESHOLD 8
+#   endif // CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_THRESHOLD
+#endif // CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
+
+#ifndef POINTING_DEVICE_ENABLE
+#    define DRGSCRL KC_NO
+#    define DPI_MOD KC_NO
+#    define S_D_MOD KC_NO
+#    define SNIPING KC_NO
+#endif // !POINTING_DEVICE_ENABLE
 
 enum charybdis_keymap_layers {
     LAYER_BASE = 0,
@@ -15,34 +32,12 @@ enum charybdis_keymap_layers {
     LAYER_SYMBOLS,
 };
 
-// Automatically enable sniping-mode on the pointer layer.
-#define CHARYBDIS_AUTO_SNIPING_ON_LAYER LAYER_POINTER
-
-#ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
-static uint16_t auto_pointer_layer_timer = 0;
-
-#    ifndef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_TIMEOUT_MS
-#        define CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_TIMEOUT_MS 1000
-#    endif // CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_TIMEOUT_MS
-
-#    ifndef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_THRESHOLD
-#        define CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_THRESHOLD 8
-#    endif // CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_THRESHOLD
-#endif     // CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
-
 #define ESC_MED LT(LAYER_MEDIA, KC_ESC)
 #define SPC_NAV LT(LAYER_NAVIGATION, KC_SPC)
 #define TAB_FUN LT(LAYER_FUNCTION, KC_TAB)
 #define ENT_SYM LT(LAYER_SYMBOLS, KC_ENT)
 #define BSP_NUM LT(LAYER_NUMERAL, KC_BSPC)
 #define _L_PTR(KC) LT(LAYER_POINTER, KC)
-
-#ifndef POINTING_DEVICE_ENABLE
-#    define DRGSCRL KC_NO
-#    define DPI_MOD KC_NO
-#    define S_D_MOD KC_NO
-#    define SNIPING KC_NO
-#endif // !POINTING_DEVICE_ENABLE
 
 // clang-format off
 /** Colemak-DH layout (3 rows, 10 columns). */
@@ -51,11 +46,6 @@ static uint16_t auto_pointer_layer_timer = 0;
     KC_A,    KC_R,    KC_S,    KC_T,    KC_G,    KC_M,    KC_N,    KC_E,    KC_I,    KC_O,   \
     KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,    KC_K,    KC_H, KC_COMM,  KC_DOT,   KC_SLSH, \
                     ESC_MED, SPC_NAV, TAB_FUN, ENT_SYM, BSP_NUM
-
-/** Convenience row shorthands. */
-#define _______________DEAD_HALF_ROW_______________ XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
-#define ______________HOME_ROW_GACS_L______________ KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX
-#define ______________HOME_ROW_GACS_R______________ XXXXXXX, KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI
 
 /*
  * Layers used on the Charybdis Nano.
@@ -90,17 +80,17 @@ static uint16_t auto_pointer_layer_timer = 0;
 #define LAYOUT_LAYER_MEDIA                                                                    \
     XXXXXXX,RGB_RMOD, RGB_TOG, RGB_MOD, XXXXXXX, XXXXXXX,RGB_RMOD, RGB_TOG, RGB_MOD, XXXXXXX, \
     KC_MPRV, KC_VOLD, KC_MUTE, KC_VOLU, KC_MNXT, KC_MPRV, KC_VOLD, KC_MUTE, KC_VOLU, KC_MNXT, \
-    XXXXXXX, XXXXXXX, XXXXXXX, EE_CLR,  QK_BOOT, QK_BOOT, EE_CLR,  XXXXXXX, XXXXXXX, XXXXXXX, \
+    XXXXXXX, KC_BTN2, KC_BTN1, KC_BTN3,  KC_NO, KC_NO, KC_NO,  XXXXXXX, XXXXXXX, XXXXXXX, \
                       _______, KC_MPLY, KC_MSTP, KC_MSTP, KC_MPLY
 
 /**
  * Mouse emulation and pointer functions.
  */
 #define LAYOUT_LAYER_POINTER                                                                  \
-    XXXXXXX, XXXXXXX, XXXXXXX, DPI_MOD, S_D_MOD, S_D_MOD, DPI_MOD, XXXXXXX, XXXXXXX, XXXXXXX, \
+    XXXXXXX, XXXXXXX, XXXXXXX, DPI_MOD, KC_NO, KC_NO, DPI_MOD, XXXXXXX, XXXXXXX, XXXXXXX, \
     ______________HOME_ROW_GACS_L______________, ______________HOME_ROW_GACS_R______________, \
-    _______, DRGSCRL, SNIPING, EE_CLR,  QK_BOOT, QK_BOOT, EE_CLR,  SNIPING, DRGSCRL, _______, \
-                      KC_BTN2, KC_BTN1, KC_BTN3, KC_BTN3, KC_BTN1
+    _______, KC_BTN2, KC_BTN1, KC_BTN3,  QK_BOOT, QK_BOOT, EE_CLR,  KC_NO, DRGSCRL, _______, \
+                      DRGSCRL, KC_BTN1, KC_BTN3, KC_BTN3, KC_BTN1
 
 /**
  * Navigation layer.
@@ -110,10 +100,10 @@ static uint16_t auto_pointer_layer_timer = 0;
  * caps lock and insert on the inner column. Thumb keys are duplicated from the
  * base layer to avoid having to layer change mid edit and to enable auto-repeat.
  */
-#define LAYOUT_LAYER_NAVIGATION                                                               \
-    _______________DEAD_HALF_ROW_______________, _______________DEAD_HALF_ROW_______________, \
-    ______________HOME_ROW_GACS_L______________, KC_CAPS, KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, \
-    _______________DEAD_HALF_ROW_______________,  KC_INS, KC_HOME, KC_PGDN, KC_PGUP,  KC_END, \
+#define LAYOUT_LAYER_NAVIGATION                                                              \
+    _______________DEAD_HALF_ROW_______________,   KC_NO,  KC_NO,    KC_UP,   KC_NO,  KC_NO, \
+    ______________HOME_ROW_GACS_L______________, KC_CAPS, KC_LEFT, KC_DOWN, KC_RGHT,  KC_NO, \
+    _______________DEAD_HALF_ROW_______________,  KC_INS, KC_HOME, KC_PGDN, KC_PGUP, KC_END, \
                       XXXXXXX, _______, XXXXXXX,  KC_ENT, KC_BSPC
 
 /**
@@ -188,6 +178,31 @@ static uint16_t auto_pointer_layer_timer = 0;
 #define LAYOUT_wrapper(...) LAYOUT(__VA_ARGS__)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+    // [LAYER_BASE] = LAYOUT_wrapper(
+    // // ┌─────────────┬─────────────┬─────────────┬─────────────┬─────────────┐┌─────────────┬─────────────┬─────────────┬─────────────┬─────────────┐
+    //     KC_Q,         KC_W,         KC_F,         KC_P,         KC_B,          KC_J,         KC_L,         KC_U,         KC_Y,         KC_QUOT,
+    // // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+    //     LGUI_T(KC_A), LALT_T(KC_R), LCTL_T(KC_S), LSFT_T(KC_T), KC_G,          KC_M,         LSFT_T(KC_N), LCTL_T(KC_E), LALT_T(KC_I), LGUI_T(KC_O),
+    // // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+    //     KC_Z,         KC_X,         KC_C,         KC_D,         KC_V,          KC_K,         KC_H,         KC_COMM,      KC_DOT,       KC_SLSH,
+    // // └─────────────┴─────────────┴─────────────┴─────────────┴─────────────┘└─────────────┴─────────────┴─────────────┴─────────────┴─────────────┘
+    // //                             ┌─────────────┬─────────────┬─────────────┐┌─────────────┬─────────────┐
+    //                                 ESC_MED,      SPC_NAV,      TAB_FUN,       ENT_SYM,      BSP_NUM
+    // //                              └─────────────┴─────────────┴─────────────┘╰─────────────┴─────────────┘
+    // ),
+
+    // [LAYER_FUNCTION] = LAYOUT_wrapper(
+    // // ┌─────────┬─────────┬─────────┬─────────┬─────────┐┌─────────┬─────────┬─────────┬─────────┬─────────┐
+    //     XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,   KC_PSCR,  KC_F7,    KC_F8,    KC_F9,    KC_F12,
+    // // ├─────────┼─────────┼─────────┼─────────┼─────────┤├─────────┼─────────┼─────────┼─────────┼─────────┤
+    //     KC_LGUI,  KC_LALT,  KC_LCTL,  KC_LSFT,  XXXXXXX,   KC_SCRL,  KC_F4,    KC_F5,    KC_F6,    KC_F11,
+    // // ├─────────┼─────────┼─────────┼─────────┼─────────┤├─────────┼─────────┼─────────┼─────────┼─────────┤
+    //     XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,   KC_PAUS,  KC_F1,    KC_F2,    KC_F3,    KC_F10,
+    // // └─────────┴─────────┴─────────┴─────────┴─────────┘└─────────┴─────────┴─────────┴─────────┴─────────┘
+    // //                        ┌────────┬────────┬────────┐┌────────┬─────────┐
+    //                            XXXXXXX, XXXXXXX, _______,  XXXXXXX, XXXXXXX
+    // //                        └────────┴────────┴────────┘└────────┴─────────┘
+    // ),
   [LAYER_BASE] = LAYOUT_wrapper(
     POINTER_MOD(HOME_ROW_MOD_GACS(LAYOUT_LAYER_BASE))
   ),
@@ -200,60 +215,38 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 // clang-format on
 
-// #ifdef POINTING_DEVICE_ENABLE
+#ifdef POINTING_DEVICE_ENABLE
+    report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
+        #ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
+            if (abs(mouse_report.x) > CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_THRESHOLD ||
+                abs(mouse_report.y) > CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_THRESHOLD) {
 
-//     #ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
+                if (auto_pointer_layer_timer == 0) {
+                    layer_on(LAYER_POINTER);
+
+                    #ifdef RGB_MATRIX_ENABLE
+                    rgb_matrix_mode_noeeprom(RGB_MATRIX_NONE);
+                    rgb_matrix_sethsv_noeeprom(HSV_GREEN);
+                    #endif // RGB_MATRIX_ENABLE
+                }
+
+                auto_pointer_layer_timer = timer_read();
+            }
+        #endif // CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
+
+        #ifdef MACCEL_ENABLE
+            mouse_report = pointing_device_task_maccel(mouse_report);
+        #endif // MACCEL_ENABLE
+
+        return mouse_report;
+    }
+#endif // POINTING_DEVICE_ENABLE
+
+// #ifdef MACCEL_ENABLE
 //     report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
-//         if (abs(mouse_report.x) > CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_THRESHOLD ||
-//             abs(mouse_report.y) > CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_THRESHOLD) {
-
-//             if (auto_pointer_layer_timer == 0) {
-//                 layer_on(LAYER_POINTER);
-
-//                 #ifdef RGB_MATRIX_ENABLE
-//                 rgb_matrix_mode_noeeprom(RGB_MATRIX_NONE);
-//                 rgb_matrix_sethsv_noeeprom(HSV_GREEN);
-//                 #endif // RGB_MATRIX_ENABLE
-//             }
-
-//             auto_pointer_layer_timer = timer_read();
-//         }
-
-//         #ifdef MACCEL_ENABLE
-//             return pointing_device_task_maccel(mouse_report);
-//         #else
-//             return mouse_report;
-//         #endif
+//         return pointing_device_task_maccel(mouse_report);
 //     }
-
-//     void matrix_scan_user(void) {
-//         if (auto_pointer_layer_timer != 0 &&
-//             TIMER_DIFF_16(timer_read(), auto_pointer_layer_timer) >= CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_TIMEOUT_MS) {
-
-//             auto_pointer_layer_timer = 0;
-//             layer_off(LAYER_POINTER);
-
-//             #ifdef RGB_MATRIX_ENABLE
-//             rgb_matrix_mode_noeeprom(RGB_MATRIX_DEFAULT_MODE);
-//             #endif // RGB_MATRIX_ENABLE
-//         }
-//     }
-//     #endif // CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
-
-//     #ifdef CHARYBDIS_AUTO_SNIPING_ON_LAYER
-//     layer_state_t layer_state_set_user(layer_state_t state) {
-//         charybdis_set_pointer_sniping_enabled(layer_state_cmp(state, CHARYBDIS_AUTO_SNIPING_ON_LAYER));
-//         return state;
-//     }
-//     #endif // CHARYBDIS_AUTO_SNIPING_ON_LAYER
-
-// #endif // POINTING_DEVICE_ENABLE
-
-#ifdef MACCEL_ENABLE
-report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
-    return pointing_device_task_maccel(mouse_report);
-}
-#endif
+// #endif
 
 
 #ifdef RGB_MATRIX_ENABLE

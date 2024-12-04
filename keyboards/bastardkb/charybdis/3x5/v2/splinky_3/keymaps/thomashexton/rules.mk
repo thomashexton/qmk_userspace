@@ -1,3 +1,3 @@
 VIA_ENABLE = no
 
-CONSOLE_ENABLE = yes
+CONSOLE_ENABLE = no
