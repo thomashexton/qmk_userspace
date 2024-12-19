@@ -28,8 +28,8 @@ static uint16_t auto_pointer_layer_timer = 0;
 
 #define ___GACS_L___(k01, k02, k03, k04) LGUI_T(KC_##k01), LALT_T(KC_##k02), LSFT_T(KC_##k03), LCTL_T(KC_##k04)
 #define ___GACS_R___(k01, k02, k03, k04) RCTL_T(KC_##k01), RSFT_T(KC_##k02), LALT_T(KC_##k03), RGUI_T(KC_##k04)
-#define ______________HOME_ROW_GACS_L______________ KC_LGUI, KC_LALT, KC_LSFT, KC_LCTL, XXXXXXX
-#define ______________HOME_ROW_GACS_R______________ XXXXXXX, KC_RCTL, KC_RSFT, KC_RALT, KC_RGUI
+#define ______________HOME_ROW_GASC_L______________ KC_LGUI, KC_LALT, KC_LSFT, KC_LCTL, XXXXXXX
+#define ______________HOME_ROW_CSAG_R______________ XXXXXXX, KC_RCTL, KC_RSFT, KC_RALT, KC_RGUI
 
 #define THUML1 LT(LAYER_RAISE, KC_SPC)
 #define THUML2 LT(LAYER_LOWER, KC_TAB)
@@ -40,6 +40,13 @@ static uint16_t auto_pointer_layer_timer = 0;
 
 // #define _L_PTR(KC) LT(LAYER_POINTER, KC)
 
+const uint16_t PROGMEM o_paren_combo[] = {KC_N, KC_E, COMBO_END};
+const uint16_t PROGMEM c_paren_combo[] = {KC_E, KC_I, COMBO_END};
+combo_t key_combos[] = {
+    COMBO(o_paren_combo, KC_LEFT_PAREN),
+    COMBO(c_paren_combo, KC_RIGHT_PAREN),
+};
+
 #define COLEMAK_DH_LAYER                                                \
     KC_Q, KC_W, KC_F, KC_P, KC_B, KC_J, KC_L, KC_U, KC_Y, KC_QUOT,      \
     ___GACS_L___(A, R, S, T), KC_G, KC_M, ___GACS_R___(N, E, I, O),     \
@@ -48,20 +55,20 @@ static uint16_t auto_pointer_layer_timer = 0;
 
 #define RAISE_LAYER                                                                           \
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
-    ______________HOME_ROW_GACS_L______________, _______, KC_LEFT, KC_UP,   KC_RGHT, _______, \
+    ______________HOME_ROW_GASC_L______________, _______, KC_LEFT, KC_UP,   KC_RGHT, _______, \
     _______, _______, _______, _______, _______, _______, _______, KC_DOWN, _______, _______, \
-                      _______, _______, _______, KC_ENT, KC_BSPC
+                      _______, _______, _______, _______, _______
 
 #define LOWER_LAYER                                                                            \
     XXXXXXX,    KC_7,    KC_8,   KC_9,   XXXXXXX, _______, _______, _______, _______, _______, \
-    XXXXXXX,    KC_4,    KC_5,   KC_6,   XXXXXXX, ______________HOME_ROW_GACS_R______________, \
-    KC_GRV,     KC_1,    KC_2,   KC_3,   KC_BSLS, _______, _______, _______, _______, _______, \
+    XXXXXXX,    KC_4,    KC_5,   KC_6,   XXXXXXX, ______________HOME_ROW_CSAG_R______________, \
+    XXXXXXX,    KC_1,    KC_2,   KC_3,   XXXXXXX, _______, _______, _______, _______, _______, \
                          KC_0,   KC_SPC, _______, _______, _______
 
 #define POINTER_LAYER                                                                         \
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-    _______, XXXXXXX, DRGSCRL, XXXXXXX, XXXXXXX, XXXXXXX, KC_BTN1, KC_BTN3, KC_BTN2, _______, \
+    XXXXXXX, XXXXXXX, DRGSCRL, XXXXXXX, XXXXXXX, XXXXXXX, KC_BTN1, KC_BTN3, KC_BTN2, XXXXXXX, \
                       _______, KC_BTN1, KC_BTN3, XXXXXXX, XXXXXXX
 
 // clang-format off
@@ -75,7 +82,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* #define LAYER_FUN                                                                 \
  * _______, _______, _______, _______, _______, XXXXXXX,   KC_F7,   KC_F8,   KC_F9,  KC_F12, \
- * ______________HOME_ROW_GACS_L______________, XXXXXXX,   KC_F4,   KC_F5,   KC_F6,  KC_F11, \
+ * ______________HOME_ROW_GASC_L______________, XXXXXXX,   KC_F4,   KC_F5,   KC_F6,  KC_F11, \
  * _______, _______, _______, _______, _______, XXXXXXX,   KC_F1,   KC_F2,   KC_F3,  KC_F10, \
  *                   XXXXXXX, XXXXXXX, _______, XXXXXXX, XXXXXXX
  */
@@ -89,14 +96,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* #define LAYER_NAV                                                             \
  *     _______, _______, _______, _______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
- *     ______________HOME_ROW_GACS_L______________, KC_CAPS, KC_LEFT, KC_UP,   KC_RGHT, XXXXXXX, \
+ *     ______________HOME_ROW_GASC_L______________, KC_CAPS, KC_LEFT, KC_UP,   KC_RGHT, XXXXXXX, \
  *     _______, _______, _______, _______, _______, KC_INS, XXXXXXX,  KC_DOWN, XXXXXXX, KC_END, \
  *                       XXXXXXX, _______, XXXXXXX, KC_ENT, KC_BSPC
  */
 
 /* #define LAYER_NUM                                                                  \
  *     KC_LBRC,    KC_7,    KC_8,    KC_9, KC_RBRC, _______, _______, _______, _______, _______, \
- *     KC_SCLN,    KC_4,    KC_5,    KC_6,  KC_EQL, ______________HOME_ROW_GACS_R______________, \
+ *     KC_SCLN,    KC_4,    KC_5,    KC_6,  KC_EQL, ______________HOME_ROW_CSAG_R______________, \
  *      KC_GRV,    KC_1,    KC_2,    KC_3, KC_BSLS, _______, _______, _______, _______, _______, \
  *                        KC_DOT,    KC_0, KC_MINS, XXXXXXX, _______
  */
