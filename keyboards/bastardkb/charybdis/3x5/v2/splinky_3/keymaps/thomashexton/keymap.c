@@ -19,45 +19,57 @@ static uint16_t auto_pointer_layer_timer = 0;
 #    define SNIPING XXXXXXX
 #endif // !POINTING_DEVICE_ENABLE
 
-// #define LAYER_COLEMAK_DH LAYER_BASE
-enum charybdis_keymap_layers {
-    LAYER_BASE = 0,
-//     // LAYER_FUNCTION,
-    LAYER_MEDIA,
-    LAYER_POINTER,
-//     // LAYER_NAVIGATION,
-//     // LAYER_NUMERAL,
-//     // LAYER_SYMBOLS,
-};
+#define LAYER_COLEMAK_DH LAYER_BASE
 
 #define PT_TOGG TG(LAYER_POINTER)
 
 #define LAYOUT_wrapper(...) LAYOUT(__VA_ARGS__)
+#define POINTER_MOD(...) _POINTER_MOD(__VA_ARGS__)
 
 #define ___GACS_L___(k01, k02, k03, k04) LGUI_T(KC_##k01), LALT_T(KC_##k02), LSFT_T(KC_##k03), LCTL_T(KC_##k04)
 #define ___GACS_R___(k01, k02, k03, k04) RCTL_T(KC_##k01), RSFT_T(KC_##k02), LALT_T(KC_##k03), RGUI_T(KC_##k04)
+#define ______________HOME_ROW_GACS_L______________ KC_LGUI, KC_LALT, KC_LSFT, KC_LCTL, XXXXXXX
+#define ______________HOME_ROW_GACS_R______________ XXXXXXX, KC_RCTL, KC_RSFT, KC_RALT, KC_RGUI
 
-#define THUML1 KC_NO // LT(LAYER_NAVIGATION, KC_SPC)
-#define THUML2 KC_NO // LT(LAYER_POINTER, KC_TAB)
-#define THUML3 KC_NO // LT(LAYER_MEDIA, KC_ESC)
-#define THUMR1 KC_NO // LT(LAYER_NUMERAL, KC_BSPC)
-#define THUMR2 KC_NO // LT(LAYER_SYMBOLS, KC_ENT)
-#define THUMR3 KC_NO // LT(LAYER_FUNCTION, KC_DEL)
+#define THUML1 LT(LAYER_RAISE, KC_SPC)
+#define THUML2 LT(LAYER_LOWER, KC_TAB)
+#define THUML3 LT(LAYER_POINTER, KC_ESC)
+#define THUMR1 LT(LAYER_RAISE, KC_BSPC)
+#define THUMR2 LT(LAYER_LOWER, KC_ENT)
+// #define THUMR3 KC_NO // LT(LAYER_FUNCTION, KC_DEL)
 
 // #define _L_PTR(KC) LT(LAYER_POINTER, KC)
 
-#define ______________HOME_ROW_GACS_L______________ LGUI_T, LALT_T, LSFT_T, LCTL_T, XXXXXXX
-#define ______________HOME_ROW_GACS_R______________ XXXXXXX, RCTL_T, RSFT_T, LALT_T, RGUI_T
-
-#define LAYOUT_LAYER_BASE                                               \
+#define COLEMAK_DH_LAYER                                                \
     KC_Q, KC_W, KC_F, KC_P, KC_B, KC_J, KC_L, KC_U, KC_Y, KC_QUOT,      \
     ___GACS_L___(A, R, S, T), KC_G, KC_M, ___GACS_R___(N, E, I, O),     \
     KC_Z, KC_X, KC_C, KC_D, KC_V, KC_K, KC_H, KC_COMM, KC_DOT, KC_SLSH, \
                  THUML3, THUML1, THUML2, THUMR2, THUMR1
 
+#define RAISE_LAYER                                                                           \
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
+    ______________HOME_ROW_GACS_L______________, _______, KC_LEFT, KC_UP,   KC_RGHT, _______, \
+    _______, _______, _______, _______, _______, _______, _______, KC_DOWN, _______, _______, \
+                      _______, _______, _______, KC_ENT, KC_BSPC
+
+#define LOWER_LAYER                                                                            \
+    XXXXXXX,    KC_7,    KC_8,   KC_9,   XXXXXXX, _______, _______, _______, _______, _______, \
+    XXXXXXX,    KC_4,    KC_5,   KC_6,   XXXXXXX, ______________HOME_ROW_GACS_R______________, \
+    KC_GRV,     KC_1,    KC_2,   KC_3,   KC_BSLS, _______, _______, _______, _______, _______, \
+                         KC_0,   KC_SPC, _______, _______, _______
+
+#define POINTER_LAYER                                                                         \
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+    _______, XXXXXXX, DRGSCRL, XXXXXXX, XXXXXXX, XXXXXXX, KC_BTN1, KC_BTN3, KC_BTN2, _______, \
+                      _______, KC_BTN1, KC_BTN3, XXXXXXX, XXXXXXX
+
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    [LAYER_BASE] = LAYOUT_wrapper(LAYOUT_LAYER_BASE),
+    [LAYER_COLEMAK_DH] = LAYOUT_wrapper(COLEMAK_DH_LAYER),
+    [LAYER_RAISE] = LAYOUT_wrapper(RAISE_LAYER),
+    [LAYER_LOWER] = LAYOUT_wrapper(LOWER_LAYER),
+    [LAYER_POINTER] = LAYOUT_wrapper(POINTER_LAYER)
 };
 // clang-format on
 
@@ -73,13 +85,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *     _______, _______, _______, _______, _______, KC_VOLD, KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX, \
  *     XXXXXXX, KC_BTN2, KC_BTN3, KC_BTN1, XXXXXXX,     KC_MUTE, KC_BTN1, KC_BTN3, KC_BTN2, XXXXXXX, \
  *     _______, XXXXXXX, XXXXXXX,     XXXXXXX, XXXXXXX
- */
-
-/* #define LAYER_POINTER                                                                  \
- *     XXXXXXX, XXXXXXX, XXXXXXX, DPI_MOD, XXXXXXX,         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,           \
- *     ______________HOME_ROW_GACS_L______________, ______________HOME_ROW_GACS_R______________, \
- *     _______, KC_BTN3, KC_BTN2, KC_BTN1, QK_BOOT, XXXXXXX, XXXXXXX, XXXXXXX, DRGSCRL, _______,    \
- *                       DRGSCRL, KC_BTN1, KC_BTN3, KC_BTN3, KC_BTN1
  */
 
 /* #define LAYER_NAV                                                             \
@@ -110,22 +115,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * This is meant to be used with `LAYER_ALPHAS_QWERTY` defined above, eg.
  *   POINTER_MOD(LAYER_ALPHAS_QWERTY)
  */
-/* #define _POINTER_MOD(                                                  \
- *    L00, L01, L02, L03, L04, R05, R06, R07, R08, R09,                  \
- *    L10, L11, L12, L13, L14, R15, R16, R17, R18, R19,                  \
- *    L20, L21, L22, L23, L24, R25, R26, R27, R28, R29,                  \
- *    ...)                                                               \
- *             L00,         L01,         L02,         L03,         L04,  \
- *             R05,         R06,         R07,         R08,         R09,  \
- *             L10,         L11,         L12,         L13,         L14,  \
- *              R15,         R16,         R17,         R18,         R19,  \
- *      _L_PTR(L20),        L21,         L22,         L23,         L24,  \
- *             R25,         R26,         R27,         R28,  _L_PTR(R29), \
- *      __VA_ARGS__
- * #define POINTER_MOD(...) _POINTER_MOD(__VA_ARGS__)
- *
- * #define LAYOUT_wrapper(...) LAYOUT(__VA_ARGS__)
- */
+#define _POINTER_MOD(                                                 \
+   L00, L01, L02, L03, L04, R05, R06, R07, R08, R09,                  \
+   L10, L11, L12, L13, L14, R15, R16, R17, R18, R19,                  \
+   L20, L21, L22, L23, L24, R25, R26, R27, R28, R29,                  \
+   ...)                                                               \
+            L00,         L01,         L02,         L03,         L04,  \
+            R05,         R06,         R07,         R08,         R09,  \
+            L10,         L11,         L12,         L13,         L14,  \
+             R15,         R16,         R17,         R18,         R19, \
+     _L_PTR(L20),        L21,         L22,         L23,         L24,  \
+            R25,         R26,         R27,         R28,  _L_PTR(R29), \
+     __VA_ARGS__
+
 
 #ifdef POINTING_DEVICE_ENABLE
     report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
