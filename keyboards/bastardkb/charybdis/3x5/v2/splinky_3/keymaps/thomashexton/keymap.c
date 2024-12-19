@@ -24,7 +24,7 @@ static uint16_t auto_pointer_layer_timer = 0;
 #define PT_TOGG TG(LAYER_POINTER)
 
 #define LAYOUT_wrapper(...) LAYOUT(__VA_ARGS__)
-#define POINTER_MOD(...) _POINTER_MOD(__VA_ARGS__)
+// #define POINTER_MOD(...) _POINTER_MOD(__VA_ARGS__)
 
 #define ___GACS_L___(k01, k02, k03, k04) LGUI_T(KC_##k01), LALT_T(KC_##k02), LSFT_T(KC_##k03), LCTL_T(KC_##k04)
 #define ___GACS_R___(k01, k02, k03, k04) RCTL_T(KC_##k01), RSFT_T(KC_##k02), LALT_T(KC_##k03), RGUI_T(KC_##k04)
@@ -42,9 +42,15 @@ static uint16_t auto_pointer_layer_timer = 0;
 
 const uint16_t PROGMEM o_paren_combo[] = {KC_N, KC_E, COMBO_END};
 const uint16_t PROGMEM c_paren_combo[] = {KC_E, KC_I, COMBO_END};
+const uint16_t PROGMEM plus_combo[] = {KC_P, KC_L, COMBO_END};
+const uint16_t PROGMEM minus_combo[] = {KC_T, KC_N, COMBO_END};
+const uint16_t PROGMEM under_combo[] = {KC_D, KC_H, COMBO_END};
 combo_t key_combos[] = {
     COMBO(o_paren_combo, KC_LEFT_PAREN),
     COMBO(c_paren_combo, KC_RIGHT_PAREN),
+    COMBO(plus_combo, KC_PLUS),
+    COMBO(minus_combo, KC_MINUS),
+    COMBO(under_combo, KC_UNDERSCORE)
 };
 
 #define COLEMAK_DH_LAYER                                                \
@@ -67,8 +73,8 @@ combo_t key_combos[] = {
 
 #define POINTER_LAYER                                                                         \
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-    XXXXXXX, XXXXXXX, DRGSCRL, XXXXXXX, XXXXXXX, XXXXXXX, KC_BTN1, KC_BTN3, KC_BTN2, XXXXXXX, \
+    XXXXXXX, XXXXXXX, DRGSCRL, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+    XXXXXXX, KC_BTN2, KC_BTN3, KC_BTN1, XXXXXXX, XXXXXXX, KC_BTN1, KC_BTN3, KC_BTN2, XXXXXXX, \
                       _______, KC_BTN1, KC_BTN3, XXXXXXX, XXXXXXX
 
 // clang-format off
@@ -122,18 +128,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * This is meant to be used with `LAYER_ALPHAS_QWERTY` defined above, eg.
  *   POINTER_MOD(LAYER_ALPHAS_QWERTY)
  */
-#define _POINTER_MOD(                                                 \
-   L00, L01, L02, L03, L04, R05, R06, R07, R08, R09,                  \
-   L10, L11, L12, L13, L14, R15, R16, R17, R18, R19,                  \
-   L20, L21, L22, L23, L24, R25, R26, R27, R28, R29,                  \
-   ...)                                                               \
-            L00,         L01,         L02,         L03,         L04,  \
-            R05,         R06,         R07,         R08,         R09,  \
-            L10,         L11,         L12,         L13,         L14,  \
-             R15,         R16,         R17,         R18,         R19, \
-     _L_PTR(L20),        L21,         L22,         L23,         L24,  \
-            R25,         R26,         R27,         R28,  _L_PTR(R29), \
-     __VA_ARGS__
+/* #define _POINTER_MOD(                                                 \
+ *   L00, L01, L02, L03, L04, R05, R06, R07, R08, R09,                  \
+ *   L10, L11, L12, L13, L14, R15, R16, R17, R18, R19,                  \
+ *   L20, L21, L22, L23, L24, R25, R26, R27, R28, R29,                  \
+ *   ...)                                                               \
+ *            L00,         L01,         L02,         L03,         L04,  \
+ *            R05,         R06,         R07,         R08,         R09,  \
+ *            L10,         L11,         L12,         L13,         L14,  \
+ *             R15,         R16,         R17,         R18,         R19, \
+ *     _L_PTR(L20),        L21,         L22,         L23,         L24,  \
+ *            R25,         R26,         R27,         R28,  _L_PTR(R29), \
+ *     __VA_ARGS__
+ */
 
 
 #ifdef POINTING_DEVICE_ENABLE
@@ -146,8 +153,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                     layer_on(LAYER_POINTER);
 
                     #ifdef RGB_MATRIX_ENABLE
-                    rgb_matrix_mode_noeeprom(RGB_MATRIX_NONE);
-                    rgb_matrix_sethsv_noeeprom(HSV_GREEN);
+                        rgb_matrix_mode_noeeprom(RGB_MATRIX_NONE);
+                        rgb_matrix_sethsv_noeeprom(HSV_GREEN);
                     #endif // RGB_MATRIX_ENABLE
                 }
 
