@@ -78,10 +78,10 @@ uint8_t COMBO_COUNT = sizeof(key_combos) / sizeof(key_combos[0]);
  *  LAYER ARRAYS
  * ────────────────────────────────────────────────────────────────────────── */
 #define COLEMAK_DH_LAYER                                                                \
-            KC_Q, KC_W, KC_F, KC_P, KC_B, KC_J, KC_L, KC_U, KC_Y, KC_QUOT,              \
-        ____GACS_L____(A, R, S, T), KC_G, KC_M, ____GACS_R____(N, E, I, O),             \
-    _L_PTR(KC_Z), KC_X, KC_C, KC_D, KC_V, KC_K, KC_H, KC_COMM, KC_DOT, _L_PTR(KC_SLSH), \
-                  THUML3, THUML1, THUML2, THUMR1, THUMR2
+                   KC_Q, KC_W, KC_F, KC_P, KC_B, KC_J, KC_L, KC_U, KC_Y, KC_QUOT,              \
+               ____GACS_L____(A, R, S, T), KC_G, KC_M, ____GACS_R____(N, E, I, O),             \
+           KC_Z, KC_X, _L_PTR(KC_C), KC_D, KC_V, KC_K, KC_H, KC_COMM, KC_DOT, _L_PTR(KC_SLSH), \
+                         THUML3, THUML1, THUML2, THUMR1, THUMR2
 
 #define RAISE_LAYER                                                                           \
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
@@ -90,16 +90,16 @@ uint8_t COMBO_COUNT = sizeof(key_combos) / sizeof(key_combos[0]);
                       _______, _______, _______, _______, _______
 
 #define LOWER_LAYER                                                                            \
-    XXXXXXX,    KC_7,    KC_8,   KC_9,   XXXXXXX, _______, _______, _______, _______, _______, \
-    XXXXXXX,    KC_4,    KC_5,   KC_6,   XXXXXXX, ______________HOME_ROW_CSAG_R______________, \
-    XXXXXXX,    KC_1,    KC_2,   KC_3,   XXXXXXX, _______, _______, _______, _______, _______, \
-                         KC_0,   KC_SPC, _______, _______, _______
+    XXXXXXX,    KC_7,   KC_8,   KC_9,   XXXXXXX, _______, _______, _______, _______, _______, \
+    XXXXXXX,    KC_4,   KC_5,   KC_6,   XXXXXXX, ______________HOME_ROW_CSAG_R______________, \
+    XXXXXXX,    KC_1,   KC_2,   KC_3,   XXXXXXX, _______, _______, _______, _______, _______, \
+                        KC_0,   KC_SPC, _______, _______, _______
 
 #define POINTER_LAYER                                                                         \
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-    XXXXXXX, XXXXXXX, DRGSCRL, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-    _______, KC_BTN2, KC_BTN3, KC_BTN1, XXXXXXX, XXXXXXX, KC_BTN1, KC_BTN3, KC_BTN2, _______, \
-                      _______, KC_BTN1, KC_BTN3, KC_BTN3, KC_BTN1
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, DRGSCRL, XXXXXXX, XXXXXXX, \
+    XXXXXXX, XXXXXXX, XXXXXXX, DRGSCRL, XXXXXXX, XXXXXXX, KC_BTN1, KC_BTN3, KC_BTN2, _______, \
+                      KC_BTN2, KC_BTN1, KC_BTN3, KC_BTN3, KC_BTN1
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
