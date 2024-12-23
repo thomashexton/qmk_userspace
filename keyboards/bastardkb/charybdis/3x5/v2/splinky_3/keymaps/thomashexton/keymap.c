@@ -96,9 +96,9 @@ uint8_t COMBO_COUNT = sizeof(key_combos) / sizeof(key_combos[0]);
                         KC_0,   KC_SPC, _______, _______, _______
 
 #define POINTER_LAYER                                                                         \
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-    XXXXXXX, XXXXXXX, DRGSCRL, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, DRGSCRL, XXXXXXX, _______, \
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
+    _______, _______, DRGSCRL, _______, _______, _______, _______, DRGSCRL, _______, _______, \
                       KC_BTN2, KC_BTN1, KC_BTN3, KC_BTN3, KC_BTN1
 
 // clang-format off
