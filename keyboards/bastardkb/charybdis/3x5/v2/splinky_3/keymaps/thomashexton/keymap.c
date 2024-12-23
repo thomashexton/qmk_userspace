@@ -44,12 +44,12 @@ const uint16_t PROGMEM o_bracket_combo[]     = {KC_M, RCTL_T(KC_N), COMBO_END};
 const uint16_t PROGMEM c_bracket_combo[]     = {RALT_T(KC_I), RGUI_T(KC_O), COMBO_END};
 const uint16_t PROGMEM o_paren_combo[]       = {KC_H, KC_COMM, COMBO_END};
 const uint16_t PROGMEM c_paren_combo[]       = {KC_COMM, KC_DOT, COMBO_END};
-const uint16_t PROGMEM o_angle_combo[]       = {KC_K, KC_H, COMBO_END};
-const uint16_t PROGMEM c_angle_combo[]       = {KC_DOT, _L_PTR(KC_SLSH), COMBO_END};
+const uint16_t PROGMEM o_angle_combo[]       = {KC_K, _L_PTR(KC_H), COMBO_END};
+const uint16_t PROGMEM c_angle_combo[]       = {KC_DOT, KC_SLSH, COMBO_END};
 const uint16_t PROGMEM plus_combo[]          = {KC_P, KC_L, COMBO_END};
 const uint16_t PROGMEM minus_combo[]         = {LCTL_T(KC_T), RCTL_T(KC_N), COMBO_END};
 const uint16_t PROGMEM equal_combo[]         = {KC_G, KC_M, COMBO_END};
-const uint16_t PROGMEM under_combo[]         = {KC_D, KC_H, COMBO_END};
+const uint16_t PROGMEM under_combo[]         = {KC_D, _L_PTR(KC_H), COMBO_END};
 
 /* ────────────────────────────────────────────────────────────────────────── *
  *  COMBO ARRAY
@@ -77,19 +77,19 @@ uint8_t COMBO_COUNT = sizeof(key_combos) / sizeof(key_combos[0]);
 /* ────────────────────────────────────────────────────────────────────────── *
  *  LAYER ARRAYS
  * ────────────────────────────────────────────────────────────────────────── */
-#define COLEMAK_DH_LAYER                                                                \
+#define COLEMAK_DH_LAYER                                                                       \
                    KC_Q, KC_W, KC_F, KC_P, KC_B, KC_J, KC_L, KC_U, KC_Y, KC_QUOT,              \
                ____GACS_L____(A, R, S, T), KC_G, KC_M, ____GACS_R____(N, E, I, O),             \
-           KC_Z, KC_X, _L_PTR(KC_C), KC_D, KC_V, KC_K, KC_H, KC_COMM, KC_DOT, _L_PTR(KC_SLSH), \
+           KC_Z, KC_X, KC_C, _L_PTR(KC_D), KC_V, KC_K, _L_PTR(KC_H), KC_COMM, KC_DOT, KC_SLSH, \
                          THUML3, THUML1, THUML2, THUMR1, THUMR2
 
 #define RAISE_LAYER                                                                           \
-    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
-    ______________HOME_ROW_GASC_L______________, _______, KC_LEFT, KC_UP,   KC_RGHT, _______, \
+    _______, _______, _______, _______, _______, KC_VOLU, _______, _______, _______, _______, \
+    ______________HOME_ROW_GASC_L______________, KC_VOLD, KC_LEFT, KC_UP,   KC_RGHT, _______, \
     _______, _______, _______, _______, _______, _______, _______, KC_DOWN, _______, _______, \
                       _______, _______, _______, _______, _______
 
-#define LOWER_LAYER                                                                            \
+#define LOWER_LAYER                                                                           \
     XXXXXXX,    KC_7,   KC_8,   KC_9,   XXXXXXX, _______, _______, _______, _______, _______, \
     XXXXXXX,    KC_4,   KC_5,   KC_6,   XXXXXXX, ______________HOME_ROW_CSAG_R______________, \
     XXXXXXX,    KC_1,   KC_2,   KC_3,   XXXXXXX, _______, _______, _______, _______, _______, \
@@ -97,8 +97,8 @@ uint8_t COMBO_COUNT = sizeof(key_combos) / sizeof(key_combos[0]);
 
 #define POINTER_LAYER                                                                         \
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, DRGSCRL, XXXXXXX, XXXXXXX, \
-    XXXXXXX, XXXXXXX, XXXXXXX, DRGSCRL, XXXXXXX, XXXXXXX, KC_BTN1, KC_BTN3, KC_BTN2, _______, \
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+    XXXXXXX, XXXXXXX, DRGSCRL, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, DRGSCRL, XXXXXXX, _______, \
                       KC_BTN2, KC_BTN1, KC_BTN3, KC_BTN3, KC_BTN1
 
 // clang-format off
@@ -151,13 +151,3 @@ float scroll_accumulated_v = 0;
         return mouse_report;
     }
 #endif // POINTING_DEVICE_ENABLE
-
-// layer_state_t layer_state_set_user(layer_state_t state) {
-//     // Enable set_scrolling if the current layer is the POINTER_LAYER
-//     if (get_highest_layer(state) == LAYER_POINTER) {
-//         set_scrolling = true;
-//     } else {
-//         set_scrolling = false;
-//     }
-//     return state;
-// }
