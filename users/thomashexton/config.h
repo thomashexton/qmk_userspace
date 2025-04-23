@@ -1,10 +1,10 @@
-#ifdef POINTING_DEVICE_ENABLE
-#   ifdef MACCEL_ENABLE
-#       define MACCEL_DEBUG
-// #       define MACCEL_USE_KEYCODES
-// #       define EECONFIG_USER_DATA_SIZE 20
-// #       undef PRINTF_SUPPORT_DECIMAL_SPECIFIERS
-// #       define PRINTF_SUPPORT_DECIMAL_SPECIFIERS 1
-#   endif
-#   define MOUSE_EXTENDED_REPORT
+#define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
+
+#define COMBO_COUNT_AUTO
+
+#ifdef MACCEL_ENABLE
+#   define MACCEL_TAKEOFF 2.0     // lower/higher value = curve takes off more smoothly/abruptly
+#   define MACCEL_GROWTH_RATE 0.5 // lower/higher value = curve reaches its upper limit slower/faster
+#   define MACCEL_OFFSET 2.75     // lower/higher value = acceleration kicks in earlier/later
+#   define MACCEL_LIMIT 0.25      // lower limit of accel curve (minimum acceleration factor)
 #endif
