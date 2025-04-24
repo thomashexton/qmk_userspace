@@ -6,16 +6,6 @@
 #endif
 
 /* ────────────────────────────────────────────────────────────────────────── *
- *  GLOBAL VARIABLES
- * ────────────────────────────────────────────────────────────────────────── */
-// Drag scroll variables
-bool set_scrolling = false;
-
-// Variables to store accumulated scroll values
-float scroll_accumulated_h = 0;
-float scroll_accumulated_v = 0;
-
-/* ────────────────────────────────────────────────────────────────────────── *
  *  USER FUNCTIONS
  * ────────────────────────────────────────────────────────────────────────── */
 
@@ -25,14 +15,6 @@ float scroll_accumulated_v = 0;
  * to the keymap-specific process_record_keymap function
  */
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    // Handle DRAG_SCROLL
-    if (keycode == DRAG_SCROLL) {
-        if (record->event.pressed) {
-            set_scrolling = !set_scrolling; // Toggle scrolling mode
-        }
-        return false;
-    }
-    
     // Handle COMMA_KEY
     if (keycode == COMMA_KEY) {
         if (record->event.pressed) {
@@ -85,32 +67,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 /**
- * Process mouse movement and implement drag scrolling
- * This handles the drag scrolling functionality, which will be 
- * consistent across all keyboards using this user space
+ * Process mouse movement
+ * Applies mouse acceleration if MACCEL is enabled
  */
 report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
     #ifdef MACCEL_ENABLE
         mouse_report = pointing_device_task_maccel(mouse_report);
     #endif // MACCEL_ENABLE
-
-    if (set_scrolling) {
-        // Calculate and accumulate scroll values based on mouse movement and divisors
-        scroll_accumulated_h += (float)mouse_report.x / SCROLL_DIVISOR_H;
-        scroll_accumulated_v += (float)mouse_report.y / SCROLL_DIVISOR_V;
-
-        // Assign integer parts of accumulated scroll values to the mouse report
-        mouse_report.h = (int8_t)scroll_accumulated_h;
-        mouse_report.v = (int8_t)scroll_accumulated_v;
-
-        // Update accumulated scroll values by subtracting the integer parts
-        scroll_accumulated_h -= (int8_t)scroll_accumulated_h;
-        scroll_accumulated_v -= (int8_t)scroll_accumulated_v;
-
-        // Clear the X and Y values of the mouse report
-        mouse_report.x = 0;
-        mouse_report.y = 0;
-    }
 
     return mouse_report;
 }

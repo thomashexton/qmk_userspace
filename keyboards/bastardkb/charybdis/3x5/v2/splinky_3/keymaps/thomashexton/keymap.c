@@ -88,9 +88,9 @@ combo_t key_combos[] = {
 /* ────────────────────────────────────────────────────────────────────────── *
  *  LAYER DEFINITIONS
  * ────────────────────────────────────────────────────────────────────────── */
-#define COLEMAK_DH_LAYER                                                                       \
-                   KC_Q, KC_W, KC_F, KC_P, KC_B, KC_J, KC_L, KC_U, KC_Y, KC_QUOT,              \
-               ____GASC_L____(A, R, S, T), KC_G, KC_M, ____CSAG_R____(N, E, I, O),             \
+#define COLEMAK_DH_LAYER                                                                          \
+                   KC_Q, KC_W, KC_F, KC_P, KC_B, KC_J, KC_L, KC_U, KC_Y, KC_QUOT,                 \
+               ____GASC_L____(A, R, S, T), KC_G, KC_M, ____CSAG_R____(N, E, I, O),                \
            KC_Z, KC_X, KC_C, _L_PTR(KC_D), KC_V, KC_K, _L_PTR(KC_H), COMMA_KEY, DOT_KEY, KC_SLSH, \
                          KC_ESC, THUML1, THUML2, THUMR1, THUMR2
 
@@ -106,10 +106,10 @@ combo_t key_combos[] = {
     _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_DOWN, XXXXXXX, _______, \
                       _______, _______, _______, _______, _______
 
-#define POINTER_LAYER                                                                         \
-    _______, _______, _______, _______, QK_BOOT, _______, RGB_SPD, RGB_TOG, RGB_SPI, _______ , \
+#define POINTER_LAYER                                                                          \
+    _______, _______, _______, _______, QK_BOOT, _______, RGB_SPD,  RGB_TOG, RGB_SPI, _______, \
     _______, _______, _______, _______, _______, _______, RGB_RMOD, _______, RGB_MOD, _______, \
-    _______, _______, DRGSCRL, _______, _______, _______, _______, DRGSCRL, _______, _______, \
+    _______, _______, DRGSCRL, _______, _______, _______, DPI_RMOD, DRGSCRL, DPI_MOD, _______, \
                       KC_BTN2, KC_BTN1, KC_BTN3, KC_BTN3, KC_BTN1
 
 // clang-format off

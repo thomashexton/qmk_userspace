@@ -21,14 +21,9 @@ enum user_layers {
  * ────────────────────────────────────────────────────────────────────────── */
 // Custom keycodes for all functionality
 enum user_keycodes {
-    DRAG_SCROLL = SAFE_RANGE,
-    COMMA_KEY,     // Custom keycode for comma to handle shift manually
-    DOT_KEY        // Custom keycode for dot to handle shift manually
+    COMMA_KEY = SAFE_RANGE, // Custom keycode for comma to handle shift manually
+    DOT_KEY                 // Custom keycode for dot to handle shift manually
 };
-
-// Modify these values to adjust the scrolling speed
-#define SCROLL_DIVISOR_H 25.0
-#define SCROLL_DIVISOR_V 25.0
 
 // Function declarations for user and keymap callbacks
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record);
