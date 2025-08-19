@@ -77,7 +77,7 @@ combo_t key_combos[] = {
 
 #define NAV_LAYER                                                                              \
     XXXXXXX, KC_VOLD, XXXXXXX, KC_VOLU, XXXXXXX, XXXXXXX, KC_BSPC, KC_ENT,  KC_TAB,  KC_DEL,   \
-    XXXXXXX, KC_LEFT,   KC_UP, KC_RGHT, XXXXXXX, XXXXXXX, ____CSAG_R____(BSPC, ENT, TAB, DEL), \
+    XXXXXXX, KC_LEFT,   KC_UP, KC_RGHT, XXXXXXX, XXXXXXX, ____CSAG_R____(ENT, BSPC, TAB, DEL), \
     XXXXXXX, KC_MPRV, KC_DOWN, KC_MNXT, XXXXXXX, XXXXXXX, KC_ENT,  XXXXXXX, XXXXXXX, XXXXXXX,  \
     XXXXXXX,                   KC_MPLY, KC_SPC,  XXXXXXX, XXXXXXX,                   XXXXXXX
 

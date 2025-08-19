@@ -41,12 +41,12 @@
 #define ______________HOME_ROW_GASC_L______________ KC_LGUI, KC_LALT, KC_LSFT, KC_LCTL, XXXXXXX
 #define ______________HOME_ROW_CSAG_R______________ XXXXXXX, KC_RCTL, KC_RSFT, KC_RALT, KC_RGUI
 
-// Thumb key definitions
-#define THUML1 LT(LAYER_LOWER, KC_SPC)
-#define THUML2 LT(LAYER_RAISE, KC_TAB)
-// #define THUML3 LT(LAYER_POINTER, KC_ESC)
-#define THUMR1 LT(LAYER_LOWER, KC_ENT)
-#define THUMR2 LT(LAYER_RAISE, KC_BSPC)
+// Thumb key definitions - "left button lowers, right button raises" per cluster
+#define THUML1 LT(LAYER_RAISE, KC_SPC)     // Left cluster, right button → RAISE (NUM)
+#define THUML2 MO(LAYER_LOWER)           // Left cluster, left button → LOWER (NAV)
+
+#define THUMR1 MO(LAYER_LOWER)            // Right cluster, left button → LOWER (NAV)
+#define THUMR2 LT(LAYER_RAISE, KC_ENT)    // Right cluster, right button → RAISE (NUM)
 
 #define _L_PTR(KC) LT(LAYER_POINTER, KC)
 
@@ -67,6 +67,8 @@ const uint16_t PROGMEM equal_combo[]         = {KC_G, KC_M, COMBO_END};
 const uint16_t PROGMEM under_combo[]         = {_L_PTR(KC_D), _L_PTR(KC_H), COMBO_END};
 const uint16_t PROGMEM grave_combo[]         = {KC_Q, KC_W, COMBO_END};
 const uint16_t PROGMEM tilde_combo[]         = {KC_Z, KC_X, COMBO_END};
+const uint16_t PROGMEM bootloader_combo[]    = {KC_Q, KC_QUOT, COMBO_END};
+const uint16_t PROGMEM escape_combo[]        = {KC_W, KC_F, COMBO_END};
 
 combo_t key_combos[] = {
     COMBO(o_curly_brace_combo, KC_LEFT_CURLY_BRACE),
@@ -83,6 +85,8 @@ combo_t key_combos[] = {
     COMBO(under_combo, KC_UNDERSCORE),
     COMBO(grave_combo, KC_GRAVE),
     COMBO(tilde_combo, S(KC_GRAVE)),
+    COMBO(bootloader_combo, QK_BOOT),
+    COMBO(escape_combo, KC_ESC),
 };
 
 /* ────────────────────────────────────────────────────────────────────────── *
@@ -92,19 +96,19 @@ combo_t key_combos[] = {
                    KC_Q, KC_W, KC_F, KC_P, KC_B, KC_J, KC_L, KC_U, KC_Y, KC_QUOT,                 \
                ____GASC_L____(A, R, S, T), KC_G, KC_M, ____CSAG_R____(N, E, I, O),                \
            KC_Z, KC_X, KC_C, _L_PTR(KC_D), KC_V, KC_K, _L_PTR(KC_H), COMMA_KEY, DOT_KEY, KC_SLSH, \
-                         KC_ESC, THUML1, THUML2, THUMR1, THUMR2
+                        XXXXXXX, THUML1, THUML2, THUMR2, THUMR1
 
-#define RAISE_LAYER                                                                           \
-    XXXXXXX,    KC_7,   KC_8,   KC_9,   XXXXXXX, _______, _______, _______, _______, _______, \
-    XXXXXXX,    KC_4,   KC_5,   KC_6,   XXXXXXX, ______________HOME_ROW_CSAG_R______________, \
-    XXXXXXX,    KC_1,   KC_2,   KC_3,   XXXXXXX, _______, _______, _______, _______, _______, \
-                        KC_0,   KC_SPC, _______, _______, _______
+#define RAISE_LAYER                                                                        \
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,   KC_7,   KC_8,   KC_9, XXXXXXX, \
+    ______________HOME_ROW_GASC_L______________, XXXXXXX,   KC_4,   KC_5,   KC_6, XXXXXXX, \
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    KC_0,   KC_1,   KC_2,   KC_3, XXXXXXX, \
+                      XXXXXXX,  KC_SPC, _______, _______, XXXXXXX
 
-#define LOWER_LAYER                                                                           \
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_VOLU, KC_MPRV, KC_MPLY, KC_MNXT, _______, \
-    ______________HOME_ROW_GASC_L______________, KC_VOLD, KC_LEFT, KC_UP,   KC_RGHT, _______, \
-    _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_DOWN, XXXXXXX, _______, \
-                      _______, _______, _______, _______, _______
+#define LOWER_LAYER                                                                            \
+    XXXXXXX, KC_VOLD, XXXXXXX, KC_VOLU, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  \
+    XXXXXXX, KC_LEFT,   KC_UP, KC_RGHT, XXXXXXX, XXXXXXX, ____CSAG_R____(ENT, BSPC, TAB, DEL), \
+    XXXXXXX, KC_MPRV, KC_DOWN, KC_MNXT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  \
+                      KC_MPLY,  KC_SPC, _______, _______, XXXXXXX
 
 #define POINTER_LAYER                                                                          \
     _______, _______, _______, _______, QK_BOOT, _______, RGB_SPD,  RGB_TOG, RGB_SPI, _______, \
