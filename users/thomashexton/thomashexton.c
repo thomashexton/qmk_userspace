@@ -1,61 +1,98 @@
 #include "quantum.h"
 #include "thomashexton.h"
 
-#ifdef MACCEL_ENABLE
-    #include "features/maccel/maccel.h"
-#endif
-
 /* ────────────────────────────────────────────────────────────────────────── *
  *  USER FUNCTIONS
  * ────────────────────────────────────────────────────────────────────────── */
 
 /**
  * Handle custom keycode processing
- * This will handle all custom keycodes and then pass any other codes
- * to the keymap-specific process_record_keymap function
+ * Provides logical shift behavior for punctuation across all keyboards:
+ * - Comma + Shift = Semicolon (instead of <)
+ * - Dot + Shift = Colon (instead of >)
+ * - Slash alone = Question Mark, Slash + Shift = Exclamation Mark (inverted behavior)
+ * - Backspace + Shift = Delete
  */
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    // Handle COMMA_KEY
-    if (keycode == COMMA_KEY) {
-        if (record->event.pressed) {
-            // Get the current mods state
-            uint8_t mods = get_mods();
-            
-            // If shift is being held, output semicolon
-            if (mods & MOD_MASK_SHIFT) {
-                // Temporarily disable shift so it doesn't modify the semicolon
-                unregister_mods(MOD_MASK_SHIFT);
-                tap_code(KC_SEMICOLON);
-                register_mods(mods);  // Restore mods
-            } else {
-                // Just output a comma
-                tap_code(KC_COMMA);
-            }
-        }
-        return false;  // Skip default handling
+    // Extract base keycode from mod-tap keys
+    uint16_t base_keycode = keycode;
+    
+    // Check if this is a mod-tap key being tapped (not held)
+    if ((keycode >= QK_MOD_TAP && keycode <= QK_MOD_TAP_MAX) && record->tap.count) {
+        base_keycode = keycode & 0xFF;
     }
     
-    // Handle DOT_KEY
-    if (keycode == DOT_KEY) {
-        if (record->event.pressed) {
-            // Get the current mods state
+    // Handle comma with custom shift behavior (works for both KC_COMM and mod-tap versions)
+    if (base_keycode == KC_COMM) {
+        // Only handle custom comma behavior when the key is actually being tapped (not held for mod)
+        if (record->event.pressed && (keycode == KC_COMM || (record->tap.count && record->tap.interrupted == false))) {
             uint8_t mods = get_mods();
-            
-            // If shift is being held, output colon
             if (mods & MOD_MASK_SHIFT) {
-                // Temporarily disable shift so it doesn't modify our keys
+                // Output semicolon instead of less-than
                 unregister_mods(MOD_MASK_SHIFT);
-                // To make a colon, we need to press shift+semicolon
+                tap_code(KC_SEMICOLON);
+                register_mods(mods);
+            } else {
+                tap_code(KC_COMMA);
+            }
+            return false;  // Skip default handling
+        }
+    }
+    
+    // Handle dot with custom shift behavior (works for both KC_DOT and mod-tap versions)
+    if (base_keycode == KC_DOT) {
+        // Only handle custom dot behavior when the key is actually being tapped (not held for mod)
+        if (record->event.pressed && (keycode == KC_DOT || (record->tap.count && record->tap.interrupted == false))) {
+            uint8_t mods = get_mods();
+            if (mods & MOD_MASK_SHIFT) {
+                // Output colon instead of greater-than
+                unregister_mods(MOD_MASK_SHIFT);
                 register_code(KC_LSFT);
                 tap_code(KC_SEMICOLON);
                 unregister_code(KC_LSFT);
-                register_mods(mods);  // Restore mods
+                register_mods(mods);
             } else {
-                // Just output a dot
                 tap_code(KC_DOT);
             }
+            return false;  // Skip default handling
         }
-        return false;  // Skip default handling
+    }
+    
+    // Handle slash with inverted behavior: / alone = ?, shift+/ = ! (works for both KC_SLSH and mod-tap versions)
+    if (base_keycode == KC_SLSH) {
+        // Only handle custom slash behavior when the key is actually being tapped (not held for mod)
+        if (record->event.pressed && (keycode == KC_SLSH || (record->tap.count && record->tap.interrupted == false))) {
+            uint8_t mods = get_mods();
+            if (mods & MOD_MASK_SHIFT) {
+                // Output exclamation mark instead of ?
+                unregister_mods(MOD_MASK_SHIFT);
+                register_code(KC_LSFT);
+                tap_code(KC_1);  // Shift + 1 = !
+                unregister_code(KC_LSFT);
+                register_mods(mods);
+            } else {
+                // Output ? instead of /
+                register_code(KC_LSFT);
+                tap_code(KC_SLSH);  // Shift + / = ?
+                unregister_code(KC_LSFT);
+            }
+            return false;  // Skip default handling
+        }
+    }
+    
+    // Handle backspace with custom shift behavior: Shift + Backspace = Delete (works for both KC_BSPC and mod-tap versions)
+    if (base_keycode == KC_BSPC) {
+        // Only handle custom backspace behavior when the key is actually being tapped (not held for mod)
+        if (record->event.pressed && (keycode == KC_BSPC || (record->tap.count && record->tap.interrupted == false))) {
+            uint8_t mods = get_mods();
+            if (mods & MOD_MASK_SHIFT) {
+                // Output delete instead of backspace
+                unregister_mods(MOD_MASK_SHIFT);
+                tap_code(KC_DEL);
+                register_mods(mods);
+                return false;  // Skip default handling
+            }
+        }
     }
     
     // Handle custom keycodes defined in the keymap
