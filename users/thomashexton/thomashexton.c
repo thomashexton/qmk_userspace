@@ -58,10 +58,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
     }
     
-    // Handle slash with inverted behavior: / alone = ?, shift+/ = ! (works for both KC_SLSH and mod-tap versions)
+    // Handle slash with inverted behavior: / alone = ?, shift+/ = ! (only for mod-tap version, not combos)
     if (base_keycode == KC_SLSH) {
-        // Only handle custom slash behavior when the key is actually being tapped (not held for mod)
-        if (record->event.pressed && (keycode == KC_SLSH || (record->tap.count && record->tap.interrupted == false))) {
+        // Only handle custom slash behavior for the actual mod-tap key, not combo-generated KC_SLSH
+        if (record->event.pressed && (keycode >= QK_MOD_TAP && keycode <= QK_MOD_TAP_MAX) && record->tap.count && record->tap.interrupted == false) {
             uint8_t mods = get_mods();
             if (mods & MOD_MASK_SHIFT) {
                 // Output exclamation mark instead of ?
@@ -80,17 +80,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
     }
     
-    // Handle backspace with custom shift behavior: Shift + Backspace = Delete (works for both KC_BSPC and mod-tap versions)
-    if (base_keycode == KC_BSPC) {
-        // Only handle custom backspace behavior when the key is actually being tapped (not held for mod)
-        if (record->event.pressed && (keycode == KC_BSPC || (record->tap.count && record->tap.interrupted == false))) {
-            uint8_t mods = get_mods();
-            if (mods & MOD_MASK_SHIFT) {
-                // Output delete instead of backspace
-                unregister_mods(MOD_MASK_SHIFT);
-                tap_code(KC_DEL);
-                register_mods(mods);
-                return false;  // Skip default handling
+    // Handle backspace with custom shift behavior: Shift + Backspace = Delete
+    // This works for ANY layer-tap key with KC_BSPC as the tap keycode
+    if ((keycode >= QK_LAYER_TAP && keycode <= QK_LAYER_TAP_MAX)) {
+        // Extract the tap keycode from the layer-tap key
+        uint16_t tap_keycode = keycode & 0xFF;
+        if (tap_keycode == KC_BSPC) {
+            if (record->event.pressed && record->tap.count) {
+                uint8_t mods = get_mods() | get_oneshot_mods();
+                if (mods & MOD_MASK_SHIFT) {
+                    // Send delete instead of backspace
+                    clear_mods();
+                    clear_oneshot_mods();
+                    tap_code(KC_DEL);
+                    set_mods(mods);
+                    return false;  // Skip default processing
+                }
             }
         }
     }

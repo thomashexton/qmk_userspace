@@ -12,13 +12,18 @@
     static const uint16_t PROGMEM escape_combo[]        = {KC_R, KC_S, COMBO_END};
 
     // Bracket pairs
-    static const uint16_t PROGMEM o_curly_brace_combo[] = {KC_N, KC_E, COMBO_END};
+    static const uint16_t PROGMEM o_curly_brace_combo[] = {N_KEY, KC_E, COMBO_END};
     static const uint16_t PROGMEM c_curly_brace_combo[] = {KC_E, KC_I, COMBO_END};
-    static const uint16_t PROGMEM o_bracket_combo[]     = {KC_M, KC_N, COMBO_END};
+    static const uint16_t PROGMEM o_bracket_combo[]     = {KC_M, N_KEY, COMBO_END};
     static const uint16_t PROGMEM c_bracket_combo[]     = {KC_I, KC_O, COMBO_END};
 
-    // Navigation
-    static const uint16_t PROGMEM tab_combo[]           = {KC_I, KC_O, COMBO_END};
+    // Slashes and pipe
+    static const uint16_t PROGMEM backslash_combo[]     = {KC_L, KC_U, COMBO_END};
+    static const uint16_t PROGMEM forwardslash_combo[]  = {KC_U, KC_Y, COMBO_END};
+    static const uint16_t PROGMEM pipe_combo[]          = {KC_L, KC_Y, COMBO_END};
+
+    // Navigation - moved to left hand
+    static const uint16_t PROGMEM tab_combo[]           = {KC_S, KC_F, COMBO_END};
 
 // Bottom row combose
     static const uint16_t PROGMEM o_paren_combo[]       = {RCTL_T(KC_H), RSFT_T(KC_COMM), COMBO_END};
@@ -32,7 +37,7 @@
     static const uint16_t PROGMEM equal_combo[]         = {KC_G, KC_M, COMBO_END};
     static const uint16_t PROGMEM under_combo[]         = {LCTL_T(KC_D), RCTL_T(KC_H), COMBO_END};
     static const uint16_t PROGMEM grave_combo[]         = {KC_Q, KC_W, COMBO_END};
-    static const uint16_t PROGMEM tilde_combo[]         = {LGUI_T(KC_Z), LALT_T(KC_X), COMBO_END};
+    static const uint16_t PROGMEM tilde_combo[]         = {KC_W, KC_F, COMBO_END};
 
 // Mouse button combos
 static const uint16_t PROGMEM right_click_combo[]       = {KC_BTN1, KC_BTN3, COMBO_END};
@@ -49,6 +54,9 @@ static const uint16_t PROGMEM right_click_combo[]       = {KC_BTN1, KC_BTN3, COM
     COMBO(o_bracket_combo, KC_LEFT_BRACKET), \
     COMBO(c_bracket_combo, KC_RIGHT_BRACKET), \
     COMBO(tab_combo, KC_TAB), \
+    COMBO(backslash_combo, KC_BACKSLASH), \
+    COMBO(forwardslash_combo, KC_SLASH), \
+    COMBO(pipe_combo, KC_PIPE), \
     COMBO(plus_combo, KC_PLUS), \
     COMBO(minus_combo, KC_MINUS), \
     COMBO(equal_combo, KC_EQUAL), \
