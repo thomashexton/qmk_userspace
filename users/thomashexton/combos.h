@@ -10,28 +10,26 @@
 
 // Middle row combos
     static const uint16_t PROGMEM escape_combo[]        = {KC_R, KC_S, COMBO_END};
-
-    // Bracket pairs
+    static const uint16_t PROGMEM tab_combo[]           = {KC_S, T_KEY, COMBO_END};
+    
+// Bracket pairs
     static const uint16_t PROGMEM o_curly_brace_combo[] = {N_KEY, KC_E, COMBO_END};
     static const uint16_t PROGMEM c_curly_brace_combo[] = {KC_E, KC_I, COMBO_END};
     static const uint16_t PROGMEM o_bracket_combo[]     = {KC_M, N_KEY, COMBO_END};
     static const uint16_t PROGMEM c_bracket_combo[]     = {KC_I, KC_O, COMBO_END};
 
-    // Slashes and pipe
+// Slashes and pipe
     static const uint16_t PROGMEM backslash_combo[]     = {KC_L, KC_U, COMBO_END};
     static const uint16_t PROGMEM forwardslash_combo[]  = {KC_U, KC_Y, COMBO_END};
     static const uint16_t PROGMEM pipe_combo[]          = {KC_L, KC_Y, COMBO_END};
 
-    // Navigation - moved to left hand
-    static const uint16_t PROGMEM tab_combo[]           = {KC_S, KC_F, COMBO_END};
-
-// Bottom row combose
+// Bottom row combos
     static const uint16_t PROGMEM o_paren_combo[]       = {RCTL_T(KC_H), RSFT_T(KC_COMM), COMBO_END};
     static const uint16_t PROGMEM c_paren_combo[]       = {RSFT_T(KC_COMM), RALT_T(KC_DOT), COMBO_END};
     static const uint16_t PROGMEM o_angle_combo[]       = {KC_K, RCTL_T(KC_H), COMBO_END};
     static const uint16_t PROGMEM c_angle_combo[]       = {RALT_T(KC_DOT), RGUI_T(KC_SLSH), COMBO_END};
 
-    // Punctuation and symbols
+// Punctuation and symbols
     static const uint16_t PROGMEM plus_combo[]          = {KC_P, KC_L, COMBO_END};
     static const uint16_t PROGMEM minus_combo[]         = {T_KEY, N_KEY, COMBO_END};
     static const uint16_t PROGMEM equal_combo[]         = {KC_G, KC_M, COMBO_END};
@@ -40,7 +38,7 @@
     static const uint16_t PROGMEM tilde_combo[]         = {KC_W, KC_F, COMBO_END};
 
 // Mouse button combos
-static const uint16_t PROGMEM right_click_combo[]       = {KC_BTN1, KC_BTN3, COMBO_END};
+    static const uint16_t PROGMEM right_click_combo[]   = {KC_BTN1, KC_BTN3, COMBO_END};
 
 /* ────────────────────────────────────────────────────────────────────────── *
  *  SIMPLE COMBO TABLE MACRO

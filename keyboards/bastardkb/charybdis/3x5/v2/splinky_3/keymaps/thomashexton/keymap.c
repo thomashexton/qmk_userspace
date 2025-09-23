@@ -12,8 +12,8 @@
 #define ____CSAG_R____(k01, k02, k03, k04) RCTL_T(KC_##k01), RSFT_T(KC_##k02), RALT_T(KC_##k03), RGUI_T(KC_##k04)
 
 // Bottom row mods as full keycode definitions - used in combination with other keys/layers
-#define ______________HOME_ROW_GASC_L______________ KC_LGUI, KC_LALT, KC_LSFT, KC_LCTL, XXXXXXX
-#define ______________HOME_ROW_CSAG_R______________ XXXXXXX, KC_RCTL, KC_RSFT, KC_RALT, KC_RGUI
+#define __________________GASC_L___________________ KC_LGUI, KC_LALT, KC_LSFT, KC_LCTL, XXXXXXX
+#define ___________________CSAG_R__________________ XXXXXXX, KC_RCTL, KC_RSFT, KC_RALT, KC_RGUI
 
 #define THUML1 LT(LAYER_RAISE, KC_SPC)  // Left cluster, left button → RAISE (NUM)
 #define THUML2 MO(LAYER_LOWER)          // Left cluster, right button → LOWER (NAV)
@@ -41,19 +41,19 @@ combo_t key_combos[] = {
 #define RAISE_LAYER                                                                        \
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,   KC_7,   KC_8,   KC_9, XXXXXXX, \
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,   KC_4,   KC_5,   KC_6, XXXXXXX, \
-    ______________HOME_ROW_GASC_L______________,    KC_0,   KC_1,   KC_2,   KC_3, XXXXXXX, \
+    __________________GASC_L___________________,    KC_0,   KC_1,   KC_2,   KC_3, XXXXXXX, \
                       XXXXXXX, _______, XXXXXXX, _______, KC_BSPC
 
 #define LOWER_LAYER                                                                           \
     XXXXXXX, KC_HOME, XXXXXXX,  KC_END, KC_VOLU, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
     XXXXXXX, KC_LEFT,   KC_UP, KC_RGHT, KC_VOLD, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-    XXXXXXX, KC_MPRV, KC_DOWN, KC_MNXT, XXXXXXX, ______________HOME_ROW_CSAG_R______________, \
+    XXXXXXX, KC_MPRV, KC_DOWN, KC_MNXT, XXXXXXX, ___________________CSAG_R__________________, \
                       XXXXXXX, KC_MPLY, _______, XXXXXXX, _______
 
 #define POINTER_LAYER                                                                          \
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, QK_BOOT, XXXXXXX, RGB_SPD,  RGB_TOG, RGB_SPI, XXXXXXX, \
     XXXXXXX, XXXXXXX, DRGSCRL, XXXXXXX, XXXXXXX, XXXXXXX, RGB_RMOD, DRGSCRL, RGB_MOD, XXXXXXX, \
-    ______________HOME_ROW_GASC_L______________, XXXXXXX, DPI_RMOD, XXXXXXX, DPI_MOD, XXXXXXX, \
+    __________________GASC_L___________________, XXXXXXX, DPI_RMOD, XXXXXXX, DPI_MOD, XXXXXXX, \
                       XXXXXXX, KC_BTN1, KC_BTN3, KC_BTN3, KC_BTN1
 
 // clang-format off

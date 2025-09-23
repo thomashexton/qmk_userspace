@@ -12,8 +12,8 @@
 #define ____CSAG_R____(k01, k02, k03, k04) RCTL_T(KC_##k01), RSFT_T(KC_##k02), RALT_T(KC_##k03), RGUI_T(KC_##k04)
 
 // Bottom row mods as full keycode definitions - used in combination with other keys/layers
-#define ______________HOME_ROW_GASC_L______________ KC_LGUI, KC_LALT, KC_LSFT, KC_LCTL, XXXXXXX
-#define ______________HOME_ROW_CSAG_R______________ XXXXXXX, KC_RCTL, KC_RSFT, KC_RALT, KC_RGUI
+#define __________________GASC_L___________________ KC_LGUI, KC_LALT, KC_LSFT, KC_LCTL, XXXXXXX
+#define ___________________CSAG_R__________________ XXXXXXX, KC_RCTL, KC_RSFT, KC_RALT, KC_RGUI
 
 #define THUML1 LT(LAYER_RAISE, KC_SPC)  // Left cluster, right button → RAISE (NUM)
 #define THUML2 MO(LAYER_LOWER)          // Left cluster, left button → LOWER (NAV)
@@ -32,29 +32,29 @@ combo_t key_combos[] = {
 /* ────────────────────────────────────────────────────────────────────────── *
  *  LAYER DEFINITIONS
  * ────────────────────────────────────────────────────────────────────────── */
-#define BASE_LAYER                                                                   \
+#define COLEMAK_DH_LAYER                                                                   \
               KC_Q, KC_W, KC_F, KC_P, KC_B, KC_J, KC_L, KC_U, KC_Y, KC_QUOT,         \
               KC_A, KC_R, KC_S, T_KEY, KC_G, KC_M, N_KEY, KC_E, KC_I, KC_O,          \
     ____GASC_L____(Z, X, C, D), KC_V, KC_K, ____CSAG_R____(H, COMM, DOT, SLSH),      \
            _______,         THUML2, THUML1, THUMR1, THUMR2,          _______
 
-#define NUM_LAYER                                                                    \
+#define RAISE_LAYER                                                                    \
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_7, KC_8, KC_9, XXXXXXX, \
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_4, KC_5, KC_6, XXXXXXX, \
-    ______________HOME_ROW_GASC_L______________,    KC_0, KC_1, KC_2, KC_3, XXXXXXX, \
+    __________________GASC_L___________________,    KC_0, KC_1, KC_2, KC_3, XXXXXXX, \
     XXXXXXX,                   XXXXXXX, _______, KC_BSPC, _______,          XXXXXXX
 
-#define NAV_LAYER                                                                             \
+#define LOWER_LAYER                                                                             \
     XXXXXXX, KC_HOME, XXXXXXX,  KC_END, KC_VOLU, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
     XXXXXXX, KC_LEFT,   KC_UP, KC_RGHT, KC_VOLD, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-    XXXXXXX, KC_MPRV, KC_DOWN, KC_MNXT, XXXXXXX, ______________HOME_ROW_CSAG_R______________, \
+    XXXXXXX, KC_MPRV, KC_DOWN, KC_MNXT, XXXXXXX, ___________________CSAG_R__________________, \
     XXXXXXX,                   _______, XXXXXXX, _______, XXXXXXX,                   XXXXXXX
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    [LAYER_BASE] = LAYOUT_wrapper(BASE_LAYER),
-    [LAYER_RAISE] = LAYOUT_wrapper(NUM_LAYER),
-    [LAYER_LOWER] = LAYOUT_wrapper(NAV_LAYER)
+    [LAYER_BASE] = LAYOUT_wrapper(COLEMAK_DH_LAYER),
+    [LAYER_RAISE] = LAYOUT_wrapper(RAISE_LAYER),
+    [LAYER_LOWER] = LAYOUT_wrapper(LOWER_LAYER)
 };
 // clang-format on
 
