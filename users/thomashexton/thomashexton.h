@@ -12,7 +12,8 @@ enum user_layers {
     LAYER_BASE = 0,
     LAYER_RAISE,
     LAYER_LOWER,
-    LAYER_POINTER
+    LAYER_POINTER,
+    LAYER_SYMBOL
 };
 // clang-format on
 

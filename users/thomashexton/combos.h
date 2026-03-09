@@ -2,6 +2,13 @@
 
 #include QMK_KEYBOARD_H
 
+// Shared home-row-mod references (CAGS + mirrored SGAC) for all keyboards.
+#define D_MOD LSFT_T(KC_D)
+#define H_MOD RSFT_T(KC_H)
+#define COMM_MOD RGUI_T(KC_COMM)
+#define DOT_MOD RALT_T(KC_DOT)
+#define SLSH_MOD RCTL_T(KC_SLSH)
+
 /* ────────────────────────────────────────────────────────────────────────── *
  *  Colemak-DH 3X5 COMBO DEFINITIONS
  * ────────────────────────────────────────────────────────────────────────── */
@@ -24,16 +31,15 @@
     static const uint16_t PROGMEM pipe_combo[]          = {KC_L, KC_Y, COMBO_END};
 
 // Bottom row combos
-    static const uint16_t PROGMEM o_paren_combo[]       = {RCTL_T(KC_H), RSFT_T(KC_COMM), COMBO_END};
-    static const uint16_t PROGMEM c_paren_combo[]       = {RSFT_T(KC_COMM), RALT_T(KC_DOT), COMBO_END};
-    static const uint16_t PROGMEM o_angle_combo[]       = {KC_K, RCTL_T(KC_H), COMBO_END};
-    static const uint16_t PROGMEM c_angle_combo[]       = {RALT_T(KC_DOT), RGUI_T(KC_SLSH), COMBO_END};
+    static const uint16_t PROGMEM o_paren_combo[]       = {H_MOD, COMM_MOD, COMBO_END};
+    static const uint16_t PROGMEM c_paren_combo[]       = {COMM_MOD, DOT_MOD, COMBO_END};
+    static const uint16_t PROGMEM o_angle_combo[]       = {KC_K, H_MOD, COMBO_END};
+    static const uint16_t PROGMEM c_angle_combo[]       = {DOT_MOD, SLSH_MOD, COMBO_END};
 
 // Punctuation and symbols
     static const uint16_t PROGMEM plus_combo[]          = {KC_P, KC_L, COMBO_END};
     static const uint16_t PROGMEM minus_combo[]         = {T_KEY, N_KEY, COMBO_END};
     static const uint16_t PROGMEM equal_combo[]         = {KC_G, KC_M, COMBO_END};
-    static const uint16_t PROGMEM under_combo[]         = {LCTL_T(KC_D), RCTL_T(KC_H), COMBO_END};
     static const uint16_t PROGMEM grave_combo[]         = {KC_Q, KC_W, COMBO_END};
     static const uint16_t PROGMEM tilde_combo[]         = {KC_W, KC_F, COMBO_END};
 
@@ -62,7 +68,6 @@
     COMBO(c_paren_combo, KC_RIGHT_PAREN), \
     COMBO(o_angle_combo, KC_LEFT_ANGLE_BRACKET), \
     COMBO(c_angle_combo, KC_RIGHT_ANGLE_BRACKET), \
-    COMBO(under_combo, KC_UNDERSCORE), \
     COMBO(grave_combo, KC_GRAVE), \
     COMBO(tilde_combo, S(KC_GRAVE)), \
     COMBO(right_click_combo, KC_BTN2)
