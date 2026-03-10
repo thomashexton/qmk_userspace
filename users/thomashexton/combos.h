@@ -2,13 +2,6 @@
 
 #include QMK_KEYBOARD_H
 
-// Shared home-row-mod references (CAGS + mirrored SGAC) for all keyboards.
-#define D_MOD LSFT_T(KC_D)
-#define H_MOD RSFT_T(KC_H)
-#define COMM_MOD RGUI_T(KC_COMM)
-#define DOT_MOD RALT_T(KC_DOT)
-#define SLSH_MOD RCTL_T(KC_SLSH)
-
 /* ────────────────────────────────────────────────────────────────────────── *
  *  Colemak-DH 3X5 COMBO DEFINITIONS
  * ────────────────────────────────────────────────────────────────────────── */
@@ -16,32 +9,8 @@
     static const uint16_t PROGMEM bootloader_combo[]    = {KC_Q, KC_QUOT, COMBO_END};
 
 // Middle row combos
-    static const uint16_t PROGMEM escape_combo[]        = {KC_R, KC_S, COMBO_END};
-    static const uint16_t PROGMEM tab_combo[]           = {KC_S, T_KEY, COMBO_END};
-    
-// Bracket pairs
-    static const uint16_t PROGMEM o_curly_brace_combo[] = {N_KEY, KC_E, COMBO_END};
-    static const uint16_t PROGMEM c_curly_brace_combo[] = {KC_E, KC_I, COMBO_END};
-    static const uint16_t PROGMEM o_bracket_combo[]     = {KC_M, N_KEY, COMBO_END};
-    static const uint16_t PROGMEM c_bracket_combo[]     = {KC_I, KC_O, COMBO_END};
-
-// Slashes and pipe
-    static const uint16_t PROGMEM backslash_combo[]     = {KC_L, KC_U, COMBO_END};
-    static const uint16_t PROGMEM forwardslash_combo[]  = {KC_U, KC_Y, COMBO_END};
-    static const uint16_t PROGMEM pipe_combo[]          = {KC_L, KC_Y, COMBO_END};
-
-// Bottom row combos
-    static const uint16_t PROGMEM o_paren_combo[]       = {H_MOD, COMM_MOD, COMBO_END};
-    static const uint16_t PROGMEM c_paren_combo[]       = {COMM_MOD, DOT_MOD, COMBO_END};
-    static const uint16_t PROGMEM o_angle_combo[]       = {KC_K, H_MOD, COMBO_END};
-    static const uint16_t PROGMEM c_angle_combo[]       = {DOT_MOD, SLSH_MOD, COMBO_END};
-
-// Punctuation and symbols
-    static const uint16_t PROGMEM plus_combo[]          = {KC_P, KC_L, COMBO_END};
-    static const uint16_t PROGMEM minus_combo[]         = {T_KEY, N_KEY, COMBO_END};
-    static const uint16_t PROGMEM equal_combo[]         = {KC_G, KC_M, COMBO_END};
-    static const uint16_t PROGMEM grave_combo[]         = {KC_Q, KC_W, COMBO_END};
-    static const uint16_t PROGMEM tilde_combo[]         = {KC_W, KC_F, COMBO_END};
+    static const uint16_t PROGMEM escape_combo[]        = {KC_W, KC_F, COMBO_END};
+    static const uint16_t PROGMEM tab_combo[]           = {KC_U, KC_Y, COMBO_END};
 
 // Mouse button combos
     static const uint16_t PROGMEM right_click_combo[]   = {KC_BTN1, KC_BTN3, COMBO_END};
@@ -49,25 +18,8 @@
 /* ────────────────────────────────────────────────────────────────────────── *
  *  SIMPLE COMBO TABLE MACRO
  * ────────────────────────────────────────────────────────────────────────── */
-// This creates the complete combo table - much cleaner than the old system
 #define ALL_COMBOS \
     COMBO(bootloader_combo, QK_BOOT), \
     COMBO(escape_combo, KC_ESC), \
-    COMBO(o_curly_brace_combo, KC_LEFT_CURLY_BRACE), \
-    COMBO(c_curly_brace_combo, KC_RIGHT_CURLY_BRACE), \
-    COMBO(o_bracket_combo, KC_LEFT_BRACKET), \
-    COMBO(c_bracket_combo, KC_RIGHT_BRACKET), \
     COMBO(tab_combo, KC_TAB), \
-    COMBO(backslash_combo, KC_BACKSLASH), \
-    COMBO(forwardslash_combo, KC_SLASH), \
-    COMBO(pipe_combo, KC_PIPE), \
-    COMBO(plus_combo, KC_PLUS), \
-    COMBO(minus_combo, KC_MINUS), \
-    COMBO(equal_combo, KC_EQUAL), \
-    COMBO(o_paren_combo, KC_LEFT_PAREN), \
-    COMBO(c_paren_combo, KC_RIGHT_PAREN), \
-    COMBO(o_angle_combo, KC_LEFT_ANGLE_BRACKET), \
-    COMBO(c_angle_combo, KC_RIGHT_ANGLE_BRACKET), \
-    COMBO(grave_combo, KC_GRAVE), \
-    COMBO(tilde_combo, S(KC_GRAVE)), \
     COMBO(right_click_combo, KC_BTN2)

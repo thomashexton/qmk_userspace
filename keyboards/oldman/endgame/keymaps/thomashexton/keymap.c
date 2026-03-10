@@ -6,20 +6,6 @@
  * ────────────────────────────────────────────────────────────────────────── */
 #define LAYOUT_wrapper(...) LAYOUT(__VA_ARGS__)
 
-enum keymap_keycodes {
-    TH_SPC_LOW = SAFE_RANGE,
-    TH_BSP_RSE,
-};
-
-typedef struct {
-    bool     pressed;
-    bool     interrupted;
-    uint16_t timer;
-} thumb_hold_state_t;
-
-static thumb_hold_state_t th_spc_low_state = {0};
-static thumb_hold_state_t th_bsp_rse_state = {0};
-
 // Bottom row mods - CAGS on left (Ctrl, Alt, GUI/Cmd, Shift), mirrored SGAC on right
 // Now on bottom row: Z, X, C, D on left; H, comma, dot, slash on right
 #define ____CAGS_L____(k01, k02, k03, k04) LCTL_T(KC_##k01), LALT_T(KC_##k02), LGUI_T(KC_##k03), LSFT_T(KC_##k04)
@@ -29,11 +15,11 @@ static thumb_hold_state_t th_bsp_rse_state = {0};
 #define __________________CAGS_L___________________ KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX
 #define ___________________SGAC_R__________________ XXXXXXX, KC_RSFT, KC_RGUI, KC_RALT, KC_RCTL
 
-#define THUML1 TH_SPC_LOW               // Left large thumb near center → LOWER on hold, Space on tap
-#define THUML2 MO(LAYER_RAISE)          // Left small thumb → RAISE
+#define THUMB_L_INNER LT(LAYER_LOWER, KC_SPC)  // Left thumb near center → LOWER on hold, Space on tap
+#define THUMB_L_OUTER MO(LAYER_RAISE)          // Left outer thumb → RAISE
 
-#define THUMR1 TH_BSP_RSE               // Right large thumb near center → RAISE on hold, Backspace on tap
-#define THUMR2 LT(LAYER_LOWER, KC_ENT)  // Right small thumb → LOWER
+#define THUMB_R_INNER LT(LAYER_RAISE, KC_BSPC) // Right thumb near center → RAISE on hold, Backspace on tap
+#define THUMB_R_OUTER LT(LAYER_LOWER, KC_ENT)  // Right outer thumb → LOWER
 
 /* ────────────────────────────────────────────────────────────────────────── *
  *  COMBO TABLE
@@ -46,35 +32,35 @@ combo_t key_combos[] = {
 /* ────────────────────────────────────────────────────────────────────────── *
  *  LAYER DEFINITIONS
  * ────────────────────────────────────────────────────────────────────────── */
-#define COLEMAK_DH_LAYER                                                                   \
-              KC_Q, KC_W, KC_F, KC_P, KC_B, KC_J, KC_L, KC_U, KC_Y, KC_QUOT,         \
-              KC_A, KC_R, KC_S, T_KEY, KC_G, KC_M, N_KEY, KC_E, KC_I, KC_O,          \
-    ____CAGS_L____(Z, X, C, D), KC_V, KC_K, ____SGAC_R____(H, COMM, DOT, SLSH),      \
-           _______,         THUML2, THUML1, THUMR1, THUMR2,          _______
+#define BASE_LAYER                                                                         \
+                   KC_Q, KC_W, KC_F, KC_P, KC_B, KC_J, KC_L, KC_U, KC_Y, KC_QUOT,          \
+                  KC_A, KC_R, KC_S, T_KEY, KC_G, KC_M, N_KEY, KC_E, KC_I, KC_O,            \
+               ____CAGS_L____(Z, X, C, D), KC_V, KC_K, ____SGAC_R____(H, COMM, DOT, SLSH), \
+          _______, THUMB_L_OUTER, THUMB_L_INNER, THUMB_R_INNER, THUMB_R_OUTER, _______
 
-#define RAISE_LAYER                                                                             \
-    XXXXXXX, KC_HOME, XXXXXXX,  KC_END, KC_VOLU, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-    XXXXXXX, KC_MPRV,   KC_UP, KC_MNXT, KC_VOLD, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-    XXXXXXX, KC_LEFT, KC_DOWN, KC_RGHT, XXXXXXX, ___________________SGAC_R__________________, \
-    XXXXXXX,                   _______, _______, _______, _______,                   XXXXXXX
-
-#define LOWER_LAYER                                                                    \
+#define LOWER_LAYER                                                                  \
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_7, KC_8, KC_9, XXXXXXX, \
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_4, KC_5, KC_6, XXXXXXX, \
     __________________CAGS_L___________________,    KC_0, KC_1, KC_2, KC_3, XXXXXXX, \
     XXXXXXX,                   _______, _______, _______, _______,          XXXXXXX
 
-#define SYMBOL_LAYER                                                                                     \
-    KC_GRV, KC_LABK, KC_LCBR, KC_LPRN, XXXXXXX, XXXXXXX, KC_RPRN, KC_RCBR, KC_RABK, KC_TILD,           \
-    XXXXXXX, KC_BSLS, KC_LBRC, KC_MINS,  KC_EQL,  KC_PLUS, KC_UNDS, KC_RBRC, KC_SLSH, KC_PIPE,         \
-    __________________CAGS_L___________________,   ___________________SGAC_R__________________,          \
-    XXXXXXX,                     _______, _______, _______, _______,                     XXXXXXX
+#define RAISE_LAYER                                                                           \
+    XXXXXXX, KC_HOME,   KC_UP,  KC_END, KC_VOLU, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+    XXXXXXX, KC_LEFT, KC_DOWN, KC_RGHT, KC_VOLD, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+    XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX, ___________________SGAC_R__________________, \
+    XXXXXXX,                   _______, _______, _______, _______,                   XXXXXXX
+
+#define SYMBOL_LAYER                                                                          \
+    KC_GRV,  KC_BSLS, KC_MINS, KC_UNDS, XXXXXXX, XXXXXXX, KC_EQL,  KC_PLUS, KC_SLSH, KC_PIPE, \
+    KC_LABK, KC_LBRC, KC_LCBR, KC_LPRN, XXXXXXX, XXXXXXX, KC_RPRN, KC_RCBR, KC_RBRC, KC_RABK, \
+    __________________CAGS_L___________________, ___________________SGAC_R__________________, \
+    XXXXXXX,                   _______, _______, _______, _______,                   XXXXXXX
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    [LAYER_BASE] = LAYOUT_wrapper(COLEMAK_DH_LAYER),
-    [LAYER_RAISE] = LAYOUT_wrapper(RAISE_LAYER),
+    [LAYER_BASE] = LAYOUT_wrapper(BASE_LAYER),
     [LAYER_LOWER] = LAYOUT_wrapper(LOWER_LAYER),
+    [LAYER_RAISE] = LAYOUT_wrapper(RAISE_LAYER),
     [LAYER_SYMBOL] = LAYOUT_wrapper(SYMBOL_LAYER)
 };
 // clang-format on
@@ -131,63 +117,5 @@ layer_state_t layer_state_set_user(layer_state_t state) {
  * Currently, all custom keycodes are handled in the user file.
  */
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
-    if (record->event.pressed) {
-        if (keycode != TH_SPC_LOW && th_spc_low_state.pressed) {
-            th_spc_low_state.interrupted = true;
-        }
-        if (keycode != TH_BSP_RSE && th_bsp_rse_state.pressed) {
-            th_bsp_rse_state.interrupted = true;
-        }
-    }
-
-    switch (keycode) {
-        case TH_SPC_LOW:
-            if (record->event.pressed) {
-                th_spc_low_state.pressed = true;
-                th_spc_low_state.interrupted = th_bsp_rse_state.pressed;
-                th_spc_low_state.timer = timer_read();
-                layer_on(LAYER_LOWER);
-            } else {
-                layer_off(LAYER_LOWER);
-
-                if (!th_spc_low_state.interrupted && timer_elapsed(th_spc_low_state.timer) < TAPPING_TERM) {
-                    tap_code(KC_SPC);
-                }
-
-                th_spc_low_state.pressed = false;
-                th_spc_low_state.interrupted = false;
-            }
-            return false;
-
-        case TH_BSP_RSE:
-            if (record->event.pressed) {
-                th_bsp_rse_state.pressed = true;
-                th_bsp_rse_state.interrupted = th_spc_low_state.pressed;
-                th_bsp_rse_state.timer = timer_read();
-                layer_on(LAYER_RAISE);
-            } else {
-                layer_off(LAYER_RAISE);
-
-                if (!th_bsp_rse_state.interrupted && timer_elapsed(th_bsp_rse_state.timer) < TAPPING_TERM) {
-                    uint8_t mods = get_mods();
-                    uint8_t oneshot_mods = get_oneshot_mods();
-
-                    if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
-                        clear_mods();
-                        clear_oneshot_mods();
-                        tap_code(KC_DEL);
-                        set_mods(mods);
-                        set_oneshot_mods(oneshot_mods);
-                    } else {
-                        tap_code(KC_BSPC);
-                    }
-                }
-
-                th_bsp_rse_state.pressed = false;
-                th_bsp_rse_state.interrupted = false;
-            }
-            return false;
-    }
-
     return true; // Continue processing for all keycodes
 }

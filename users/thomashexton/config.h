@@ -1,4 +1,11 @@
 #define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
+#ifdef TAPPING_TERM
+#    undef TAPPING_TERM
+#endif
+#define TAPPING_TERM 150
+#ifdef CHORDAL_HOLD
+#    undef CHORDAL_HOLD
+#endif
 
 #define COMBO_COUNT_AUTO
 #define COMBO_TERM 60        // Time window for combo activation (default is 50ms, increased for easier timing)
