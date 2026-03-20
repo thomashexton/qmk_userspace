@@ -6,12 +6,16 @@
  * ────────────────────────────────────────────────────────────────────────── */
 #define LAYOUT_wrapper(...) LAYOUT(__VA_ARGS__)
 
-// Bottom row mods - CAGS on left (Ctrl, Alt, GUI/Cmd, Shift), mirrored SGAC on right
-// Now on bottom row: Z, X, C, D on left; H, comma, dot, slash on right
+// Home row mods - CAGS on left (Ctrl, Alt, GUI/Cmd, Shift), mirrored SGAC on right
+// On the home row: A, R, S, T on the left; N, E, I, O on the right
 #define ____CAGS_L____(k01, k02, k03, k04) LCTL_T(KC_##k01), LALT_T(KC_##k02), LGUI_T(KC_##k03), LSFT_T(KC_##k04)
 #define ____SGAC_R____(k01, k02, k03, k04) RSFT_T(KC_##k01), RGUI_T(KC_##k02), RALT_T(KC_##k03), RCTL_T(KC_##k04)
 
-// Bottom row mods as full keycode definitions - used in combination with other keys/layers
+// Home-row full modifiers for layers that have room to preserve the same mod positions
+#define ______________HOME_ROW_CAGS_L______________ KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX
+#define ______________HOME_ROW_SGAC_R______________ XXXXXXX, KC_RSFT, KC_RGUI, KC_RALT, KC_RCTL
+
+// Bottom-row full modifiers reserved for the pointer layer, where other actions take over the home row
 #define __________________CAGS_L___________________ KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX
 #define ___________________SGAC_R__________________ XXXXXXX, KC_RSFT, KC_RGUI, KC_RALT, KC_RCTL
 
@@ -34,20 +38,20 @@ combo_t key_combos[] = {
  * ────────────────────────────────────────────────────────────────────────── */
 #define COLEMAK_DH_LAYER                                                             \
              KC_Q, KC_W, KC_F, KC_P, KC_B, KC_J, KC_L, KC_U, KC_Y, KC_QUOT,          \
-            KC_A, KC_R, KC_S, T_KEY, KC_G, KC_M, N_KEY, KC_E, KC_I, KC_O,            \
-         ____CAGS_L____(Z, X, C, D), KC_V, KC_K, ____SGAC_R____(H, COMM, DOT, SLSH), \
+         ____CAGS_L____(A, R, S, T), KC_G, KC_M, ____SGAC_R____(N, E, I, O),          \
+             KC_Z, KC_X, KC_C, KC_D, KC_V, KC_K, KC_H, KC_COMM, KC_DOT, KC_SLSH,     \
                   XXXXXXX, THUMB_L_OUTER, THUMB_L_INNER, THUMB_R_INNER, THUMB_R_OUTER
 
 #define RAISE_LAYER                                                                        \
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,   KC_7,   KC_8,   KC_9, XXXXXXX, \
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,   KC_4,   KC_5,   KC_6, XXXXXXX, \
-    __________________CAGS_L___________________,    KC_0,   KC_1,   KC_2,   KC_3, XXXXXXX, \
+    ______________HOME_ROW_CAGS_L______________, XXXXXXX,   KC_4,   KC_5,   KC_6, XXXXXXX, \
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    KC_0,   KC_1,   KC_2,   KC_3, XXXXXXX, \
                       XXXXXXX, _______, XXXXXXX, _______, KC_BSPC
 
 #define LOWER_LAYER                                                                           \
     XXXXXXX, KC_HOME, XXXXXXX,  KC_END, KC_VOLU, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-    XXXXXXX, KC_LEFT,   KC_UP, KC_RGHT, KC_VOLD, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-    XXXXXXX, KC_MPRV, KC_DOWN, KC_MNXT, XXXXXXX, ___________________SGAC_R__________________, \
+    XXXXXXX, KC_LEFT,   KC_UP, KC_RGHT, KC_VOLD, ______________HOME_ROW_SGAC_R______________,   \
+    XXXXXXX, KC_MPRV, KC_DOWN, KC_MNXT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
                       XXXXXXX, KC_MPLY, _______, XXXXXXX, _______
 
 #define POINTER_LAYER                                                                          \

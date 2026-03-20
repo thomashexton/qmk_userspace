@@ -107,15 +107,3 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     
     return true; // Continue processing for all other keycodes
 }
-
-/**
- * Process mouse movement
- * Applies mouse acceleration if MACCEL is enabled
- */
-report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
-    #ifdef MACCEL_ENABLE
-        mouse_report = pointing_device_task_maccel(mouse_report);
-    #endif // MACCEL_ENABLE
-
-    return mouse_report;
-}
