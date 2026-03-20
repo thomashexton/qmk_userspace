@@ -13,16 +13,10 @@ enum user_layers {
 };
 // clang-format on
 
-/* ────────────────────────────────────────────────────────────────────────── *
- *  SHARED LETTER DEFINITIONS
- * ────────────────────────────────────────────────────────────────────────── */
-// T and N are plain letters again across both boards.
-// combos.h still references these names, so keep the aliases in one place.
-#define T_KEY KC_T
-#define N_KEY KC_N
+// Shared home row mod order across all boards in this userspace.
+#include "home_row_mods.h"
 
-// Include the combos configuration and definitions
-// MUST be included AFTER T_KEY and N_KEY are defined since combos.h uses them
+// Shared combo definitions across all boards in this userspace.
 #include "combos.h"
 
 /* ────────────────────────────────────────────────────────────────────────── *

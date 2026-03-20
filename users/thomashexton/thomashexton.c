@@ -16,12 +16,12 @@
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     // Extract base keycode from mod-tap keys
     uint16_t base_keycode = keycode;
-    
+
     // Check if this is a mod-tap key being tapped (not held)
     if ((keycode >= QK_MOD_TAP && keycode <= QK_MOD_TAP_MAX) && record->tap.count) {
         base_keycode = keycode & 0xFF;
     }
-    
+
     // Handle comma with custom shift behavior (works for both KC_COMM and mod-tap versions)
     if (base_keycode == KC_COMM) {
         // Only handle custom comma behavior when the key is actually being tapped (not held for mod)
@@ -38,7 +38,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;  // Skip default handling
         }
     }
-    
+
     // Handle dot with custom shift behavior (works for both KC_DOT and mod-tap versions)
     if (base_keycode == KC_DOT) {
         // Only handle custom dot behavior when the key is actually being tapped (not held for mod)
@@ -57,19 +57,29 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;  // Skip default handling
         }
     }
-    
-    // Handle slash with inverted behavior: / alone = ?, shift+/ = ! (only for mod-tap version, not combos)
+
+    // Handle slash with inverted behavior on the base layer: / alone = ?, shift+/ = !
     if (base_keycode == KC_SLSH) {
-        // Only handle custom slash behavior for the actual mod-tap key, not combo-generated KC_SLSH
-        if (record->event.pressed && (keycode >= QK_MOD_TAP && keycode <= QK_MOD_TAP_MAX) && record->tap.count && record->tap.interrupted == false) {
-            uint8_t mods = get_mods();
-            if (mods & MOD_MASK_SHIFT) {
+        const bool is_base_layer = get_highest_layer(layer_state) == LAYER_BASE;
+        const bool is_plain_slash = keycode == KC_SLSH;
+        const bool is_tapped_mod_tap_slash =
+            (keycode >= QK_MOD_TAP && keycode <= QK_MOD_TAP_MAX) && record->tap.count && record->tap.interrupted == false;
+
+        // Limit this remap to the base layer so symbol-layer slash still sends slash.
+        if (is_base_layer && record->event.pressed && (is_plain_slash || is_tapped_mod_tap_slash)) {
+            uint8_t mods         = get_mods();
+            uint8_t oneshot_mods = get_oneshot_mods();
+            uint8_t all_mods     = mods | oneshot_mods;
+
+            if (all_mods & MOD_MASK_SHIFT) {
                 // Output exclamation mark instead of ?
-                unregister_mods(MOD_MASK_SHIFT);
+                clear_mods();
+                clear_oneshot_mods();
                 register_code(KC_LSFT);
                 tap_code(KC_1);  // Shift + 1 = !
                 unregister_code(KC_LSFT);
                 register_mods(mods);
+                set_oneshot_mods(oneshot_mods);
             } else {
                 // Output ? instead of /
                 register_code(KC_LSFT);
@@ -79,7 +89,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;  // Skip default handling
         }
     }
-    
+
     // Handle backspace with custom shift behavior: Shift + Backspace = Delete
     // This works for ANY layer-tap key with KC_BSPC as the tap keycode
     if ((keycode >= QK_LAYER_TAP && keycode <= QK_LAYER_TAP_MAX)) {
@@ -99,11 +109,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
         }
     }
-    
+
     // Handle custom keycodes defined in the keymap
     if (!process_record_keymap(keycode, record)) {
         return false;
     }
-    
+
     return true; // Continue processing for all other keycodes
 }

@@ -6,19 +6,6 @@
  * ────────────────────────────────────────────────────────────────────────── */
 #define LAYOUT_wrapper(...) LAYOUT(__VA_ARGS__)
 
-// Home row mods - CAGS on left (Ctrl, Alt, GUI/Cmd, Shift), mirrored SGAC on right
-// On the home row: A, R, S, T on the left; N, E, I, O on the right
-#define ____CAGS_L____(k01, k02, k03, k04) LCTL_T(KC_##k01), LALT_T(KC_##k02), LGUI_T(KC_##k03), LSFT_T(KC_##k04)
-#define ____SGAC_R____(k01, k02, k03, k04) RSFT_T(KC_##k01), RGUI_T(KC_##k02), RALT_T(KC_##k03), RCTL_T(KC_##k04)
-
-// Home-row full modifiers for layers that have room to preserve the same mod positions
-#define ______________HOME_ROW_CAGS_L______________ KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX
-#define ______________HOME_ROW_SGAC_R______________ XXXXXXX, KC_RSFT, KC_RGUI, KC_RALT, KC_RCTL
-
-// Bottom-row full modifiers reserved for the symbol layer, where the home row is occupied by delimiters
-#define __________________CAGS_L___________________ KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX
-#define ___________________SGAC_R__________________ XXXXXXX, KC_RSFT, KC_RGUI, KC_RALT, KC_RCTL
-
 #define THUMB_L_INNER LT(LAYER_LOWER, KC_SPC)  // Left thumb near center → LOWER on hold, Space on tap
 #define THUMB_L_OUTER MO(LAYER_RAISE)          // Left outer thumb → RAISE
 
@@ -38,25 +25,25 @@ combo_t key_combos[] = {
  * ────────────────────────────────────────────────────────────────────────── */
 #define BASE_LAYER                                                                            \
                       KC_Q, KC_W, KC_F, KC_P, KC_B, KC_J, KC_L, KC_U, KC_Y, KC_QUOT,          \
-                  ____CAGS_L____(A, R, S, T), KC_G, KC_M, ____SGAC_R____(N, E, I, O),         \
+                           TH_HRM_LEFT(A, R, S, T), KC_G, KC_M, TH_HRM_RIGHT(N, E, I, O),       \
                       KC_Z, KC_X, KC_C, KC_D, KC_V, KC_K, KC_H, KC_COMM, KC_DOT, KC_SLSH,     \
              _______, THUMB_L_OUTER, THUMB_L_INNER, THUMB_R_INNER, THUMB_R_OUTER, _______
 
 #define LOWER_LAYER                                                                           \
  XXXXXXX, G(KC_LBRC), XXXXXXX, G(KC_RBRC), XXXXXXX, XXXXXXX, KC_7, KC_8, KC_9, XXXXXXX,       \
-       ______________HOME_ROW_CAGS_L______________, XXXXXXX, KC_4, KC_5, KC_6, XXXXXXX,       \
+                                  TH_HRM_LEFT_MODS, XXXXXXX, KC_4, KC_5, KC_6, XXXXXXX,       \
     XXXXXXX, G(S(KC_LBRC)), XXXXXXX, G(S(KC_RBRC)), XXXXXXX, KC_0, KC_1, KC_2, KC_3, XXXXXXX, \
        XXXXXXX,                   _______, _______, _______, _______,          XXXXXXX
 
 #define RAISE_LAYER                                                                              \
        XXXXXXX, KC_HOME,   KC_UP,  KC_END, KC_VOLU, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-       XXXXXXX, KC_LEFT, KC_DOWN, KC_RGHT, KC_VOLD, ______________HOME_ROW_SGAC_R______________, \
+       XXXXXXX, KC_LEFT, KC_DOWN, KC_RGHT, KC_VOLD, TH_HRM_RIGHT_MODS,                            \
        XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
        XXXXXXX,                   _______, _______, _______, _______,                   XXXXXXX
 
 #define SYMBOL_LAYER                                                                             \
        KC_GRV,  KC_BSLS, KC_MINS, KC_UNDS, XXXXXXX, XXXXXXX, KC_EQL,  KC_PLUS, KC_SLSH, KC_PIPE, \
-       ______________HOME_ROW_CAGS_L______________, ______________HOME_ROW_SGAC_R______________, \
+                                  TH_HRM_LEFT_MODS, TH_HRM_RIGHT_MODS,                           \
        KC_LABK, KC_LBRC, KC_LCBR, KC_LPRN, XXXXXXX, XXXXXXX, KC_RPRN, KC_RCBR, KC_RBRC, KC_RABK, \
        XXXXXXX,                   _______, _______, _______, _______,                   XXXXXXX
 
