@@ -9,6 +9,7 @@
 #ifdef PERMISSIVE_HOLD
 #    undef PERMISSIVE_HOLD
 #endif
+#define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 
 #define COMBO_COUNT_AUTO
 #define COMBO_TERM 60        // Time window for combo activation (default is 50ms, increased for easier timing)
