@@ -5,6 +5,21 @@
  *  USER FUNCTIONS
  * ────────────────────────────────────────────────────────────────────────── */
 
+#ifdef HOLD_ON_OTHER_KEY_PRESS_PER_KEY
+bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
+    (void)record;
+
+    switch (keycode) {
+        case LT(LAYER_RAISE, KC_SPC):
+        case LT(LAYER_RAISE, KC_ENT):
+        case LT(LAYER_LOWER, KC_BSPC):
+            return true;
+        default:
+            return false;
+    }
+}
+#endif
+
 /**
  * Handle custom keycode processing
  * Provides logical shift behavior for punctuation across all keyboards:
