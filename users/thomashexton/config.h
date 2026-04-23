@@ -17,7 +17,15 @@
 #define COMBO_HOLD_TERM 150  // How long to hold combo for repeat/hold actions
 
 // Pointing-device acceleration settings for keymaps that include the community module.
-#define POINTING_DEVICE_ACCEL_TAKEOFF 2.0
-#define POINTING_DEVICE_ACCEL_GROWTH_RATE 0.5
-#define POINTING_DEVICE_ACCEL_OFFSET 2.75
-#define POINTING_DEVICE_ACCEL_LIMIT 0.25
+// The Charybdis originally used a gentler maccel curve than the later shared defaults.
+#if defined(KEYBOARD_bastardkb_charybdis_3x5_v2_splinky_3)
+#    define POINTING_DEVICE_ACCEL_TAKEOFF 2.0
+#    define POINTING_DEVICE_ACCEL_GROWTH_RATE 0.25
+#    define POINTING_DEVICE_ACCEL_OFFSET 2.2
+#    define POINTING_DEVICE_ACCEL_LIMIT 0.2
+#else
+#    define POINTING_DEVICE_ACCEL_TAKEOFF 2.0
+#    define POINTING_DEVICE_ACCEL_GROWTH_RATE 0.5
+#    define POINTING_DEVICE_ACCEL_OFFSET 2.75
+#    define POINTING_DEVICE_ACCEL_LIMIT 0.25
+#endif
