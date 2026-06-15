@@ -9,7 +9,8 @@ enum user_layers {
     LAYER_RAISE,
     LAYER_LOWER,
     LAYER_POINTER,
-    LAYER_SYMBOL
+    LAYER_SYMBOL,
+    LAYER_GAME      // QWERTY gaming layer (currently used by if_rec/Ergolite)
 };
 // clang-format on
 

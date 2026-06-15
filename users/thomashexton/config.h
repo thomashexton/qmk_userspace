@@ -3,13 +3,31 @@
 #    undef TAPPING_TERM
 #endif
 #define TAPPING_TERM 150
-#ifdef CHORDAL_HOLD
-#    undef CHORDAL_HOLD
+// Home-row-mod timing.
+// On Vial builds (QMK_SETTINGS) tap-hold behaviour is configured at runtime in
+// Vial's "QMK Settings" tab, so we leave these to Vial and only keep
+// CHORDAL_HOLD defined (the Vial settings code requires it). On plain compiled
+// builds (charybdis, oldman) we bake in the modern anti-misfire features:
+//   - CHORDAL_HOLD  : a tap-hold only becomes a mod/layer if the *next* key is
+//                     on the opposite hand; same-hand rolls stay taps. Requires
+//                     per-board handedness — see chordal_hold_layout in each
+//                     board's keymap.c (thumbs are marked '*' so they always
+//                     hold). Without that array the build fails to link.
+//   - FLOW_TAP_TERM : within this many ms of a previous typing key, a tap-hold
+//                     key is forced to tap — kills mod misfires during fast
+//                     typing bursts. Tune up/down to taste.
+#ifndef QMK_SETTINGS
+#    ifndef CHORDAL_HOLD
+#        define CHORDAL_HOLD
+#    endif
+#    ifdef PERMISSIVE_HOLD
+#        undef PERMISSIVE_HOLD
+#    endif
+#    define FLOW_TAP_TERM 150
 #endif
-#ifdef PERMISSIVE_HOLD
-#    undef PERMISSIVE_HOLD
+#ifndef HOLD_ON_OTHER_KEY_PRESS_PER_KEY
+#    define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 #endif
-#define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 
 #define COMBO_COUNT_AUTO
 #define COMBO_TERM 60        // Time window for combo activation (default is 50ms, increased for easier timing)

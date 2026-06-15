@@ -5,7 +5,7 @@
  *  USER FUNCTIONS
  * ────────────────────────────────────────────────────────────────────────── */
 
-#ifdef HOLD_ON_OTHER_KEY_PRESS_PER_KEY
+#if defined(HOLD_ON_OTHER_KEY_PRESS_PER_KEY) && !defined(QMK_SETTINGS)
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     (void)record;
 

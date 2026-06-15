@@ -57,6 +57,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // clang-format on
 
 /* ────────────────────────────────────────────────────────────────────────── *
+ *  CHORDAL HOLD HANDEDNESS
+ *  Per-key hand for CHORDAL_HOLD (see users/thomashexton/config.h). Oldman is a
+ *  4x10 unibody, so left/right is by column. 'L'/'R' mark the physical hand;
+ *  thumbs are '*' so their layer-taps always hold.
+ * ────────────────────────────────────────────────────────────────────────── */
+#ifdef CHORDAL_HOLD
+// clang-format off
+const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM = LAYOUT_wrapper(
+    'L', 'L', 'L', 'L', 'L',   'R', 'R', 'R', 'R', 'R',
+    'L', 'L', 'L', 'L', 'L',   'R', 'R', 'R', 'R', 'R',
+    'L', 'L', 'L', 'L', 'L',   'R', 'R', 'R', 'R', 'R',
+         '*', '*', '*',   '*', '*', '*'
+);
+// clang-format on
+#endif
+
+/* ────────────────────────────────────────────────────────────────────────── *
  *  KEYBOARD INITIALIZATION
  * ────────────────────────────────────────────────────────────────────────── */
 
