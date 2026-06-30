@@ -62,24 +62,21 @@ for entry in "${BOARDS[@]}"; do
   draw_board "$kb" "$kmdir" "$select"
 done
 
-# if_rec is a 2.4GHz receiver whose LAYOUT is a 253-key composite of three
-# physical keyboards (ergo+corne+alice) padded with PAD_NOT_CONNECTED. The real
-# keymap is just the embedded Ergolite block (4 rows x 14 + a 10-key thumb row),
-# so we expand with keymap_to_json.py --eglt (which drops the pad columns down to
-# the 49 real keys) and render against a SYNTHETIC cols+thumbs layout instead of
-# the useless composite info.json. GAME (QWERTY) reduces cleanly and is drawn;
-# the empty POINTER layer is skipped.
+# if_rec is the 2.4GHz receiver/dongle; you type on the IFKB Ergolite. The
+# receiver's own LAYOUT is a useless ~253-key composite of three boards, so we
+# draw the embedded Ergolite block (LAYOUT_eglt: 66 real keys = 7 cols + 5 thumbs
+# per hand) against tools/ergolite.layout.json, a hand-authored per-key physical
+# layout. Output is named for the keyboard you actually use: ergolite.svg.
+# GAME (QWERTY) is drawn; the empty POINTER layer is skipped.
 draw_eglt() {
-  local kb="if_rec" kmdir="if_rec"
-  local name="$kb"
-  local kmc="$USERSPACE/keyboards/$kmdir/keymaps/thomashexton/keymap.c"
-  # 5 cols/hand x 4 rows (number row + 3 alpha) + 5 left / 4 right thumbs.
-  local cols_thumbs='44444+5 4+44444'
+  local kmc="$USERSPACE/keyboards/if_rec/keymaps/thomashexton/keymap.c"
+  local layout_json="$HERE/ergolite.layout.json"
+  local name="ergolite"
   local select="Base Raise Lower Symbol Game"
-  echo "=== $kb (eglt; synthetic $cols_thumbs layout) ==="
+  echo "=== ergolite (if_rec firmware; per-key physical layout) ==="
 
   python3 "$HERE/keymap_to_json.py" "$kmc" "$USERS" "$TMP/$name.json" \
-    --keyboard "$kb" --layout LAYOUT --keycount 66 --eglt \
+    --keyboard ergolite --layout LAYOUT --keycount 66 \
     --combos-out "$TMP/$name.combos.yaml"
 
   local nlayers
@@ -87,7 +84,7 @@ draw_eglt() {
   keymap parse -q "$TMP/$name.json" -l "${LAYER_NAMES[@]:0:$nlayers}" -o "$TMP/$name.yaml"
   # shellcheck disable=SC2086
   keymap -c "$CONFIG" draw "$TMP/$name.yaml" "$TMP/$name.combos.yaml" \
-    -n "$cols_thumbs" -s $select -o "$OUT/$name.svg"
+    -j "$layout_json" -s $select -o "$OUT/$name.svg"
   echo "    -> docs/keymaps/$name.svg"
 }
 

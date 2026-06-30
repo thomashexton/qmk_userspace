@@ -10,7 +10,7 @@ mini-boards in a "Combos:" section).
 |-------|---------|
 | oldman/endgame | [oldman_endgame.svg](oldman_endgame.svg) |
 | bastardkb/charybdis 3x5 | [bastardkb_charybdis_3x5_v2_splinky_3.svg](bastardkb_charybdis_3x5_v2_splinky_3.svg) |
-| if_rec (IFKB Ergolite, 2.4 GHz receiver) | [if_rec.svg](if_rec.svg) |
+| IFKB Ergolite (if_rec firmware) | [ergolite.svg](ergolite.svg) |
 
 ## Regenerating
 
@@ -25,18 +25,19 @@ combo macros into a plain QMK `keymap.json`) → `keymap parse` → `keymap draw
 Requires the [keymap-drawer](https://github.com/caksoylar/keymap-drawer) CLI
 (`keymap`), the `qmk` CLI, and `python3`.
 
-## if_rec (Ergolite via 2.4 GHz receiver)
+## IFKB Ergolite (if_rec firmware)
 
-`if_rec` is a 2.4 GHz receiver/dongle whose `LAYOUT` is a ~253-key composite of
-three physical keyboards (ergo + corne + alice) padded with
-`PAD_NOT_CONNECTED`. The real keymap is only the embedded Ergolite block (4 rows
-× 14 + a 10-key thumb row per layer, wrapped by `LAYOUT_eglt`), so the composite
-`info.json` would draw a useless sea of empty keys.
+`if_rec` is the 2.4 GHz receiver/dongle — you type on the IFKB **Ergolite**, which
+talks to it wirelessly. The receiver's own `LAYOUT` is a useless ~253-key
+composite of three physical keyboards (ergo + corne + alice) padded with
+`PAD_NOT_CONNECTED`; the real keymap is the embedded Ergolite block
+(`LAYOUT_eglt`: 66 keys = 7 columns + 5 thumbs per hand).
 
-Instead, `keymap_to_json.py --eglt` reduces each layer to the 49 real Ergolite
-keys (drops the inter-half pad columns: indices 0/6/7/13 of each main row and
-index 8 of the thumb row), and the diagram is rendered against a **synthetic**
-`cols+thumbs` layout (`44444+5 4+44444` — 5 columns × 4 rows per hand, 5 left /
-4 right thumbs) rather than `qmk info`. Layers drawn: Base, Raise, Lower, Symbol,
-and the QWERTY Game layer (which reduces cleanly); the empty Pointer layer is
-skipped.
+So those 66 keys are emitted as-is and drawn against
+[`../../tools/ergolite.layout.json`](../../tools/ergolite.layout.json) — a
+hand-authored per-key physical layout — instead of `qmk info`. Layers drawn:
+Base, Raise, Lower, Symbol, and the QWERTY Game layer; the empty Pointer layer is
+skipped. To nudge key positions, edit the stagger / thumb-coordinate tables in
+[`../../tools/gen_ergolite_layout.py`](../../tools/gen_ergolite_layout.py) and
+re-run it (`python3 tools/gen_ergolite_layout.py tools/ergolite.layout.json`),
+then `./tools/draw_keymaps.sh`.

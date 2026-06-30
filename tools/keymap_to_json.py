@@ -11,12 +11,13 @@ Usage:
   keymap_to_json.py <keymap.c> <users_dir> <out.json> \
       --keyboard NAME --layout LAYOUT --keycount N [--combos-out combos.yaml]
 
-The --eglt flag handles the if_rec receiver: its LAYOUT is a ~253-key composite
-of three IFKB boards padded by PAD_NOT_CONNECTED, but the real keymap is only the
-embedded Ergolite block (4 rows x 14 + a 10-key thumb row per layer, wrapped by
-LAYOUT_eglt). In that mode each layer body is reduced to the 49 real Ergolite
-keys (5+5 per main row, 5+4 thumbs) by dropping the inter-half pad columns, so it
-can be drawn with a synthetic cols+thumbs layout instead of the composite info.
+For the if_rec receiver, the keymap is the embedded Ergolite block (LAYOUT_eglt:
+4 rows x 14 cols + a 10-key thumb row = 66 real keys per layer). Those 66 keys
+are all real (7 cols + 5 thumbs per hand), so they're emitted as-is and drawn
+against tools/ergolite.layout.json (a per-key physical layout) rather than the
+receiver's useless ~253-key composite info.json. PAD_NOT_CONNECTED and its XX*
+helpers live only in the LAYOUT_eglt wrapper, never in a layer body, and are
+skipped in collect_defines.
 """
 import argparse
 import json
@@ -76,31 +77,6 @@ def collect_defines(src):
         if val == "\\" or re.fullmatch(r"XX\d+", name):
             continue
         out[name] = val
-    return out
-
-
-# if_rec Ergolite extraction: each LAYOUT_eglt layer body is 4 rows x 14 cols
-# followed by a 10-key thumb row (66 keys). The 14-col rows flank the 5+5 real
-# keys with pad columns at indices 0, 6, 7, 13; the thumb row pads index 8.
-EGLT_ROW_LEN = 14
-EGLT_NUM_MAIN_ROWS = 4
-EGLT_MAIN_PAD_COLS = {0, 6, 7, 13}
-EGLT_THUMB_PAD_COLS = {8}
-EGLT_KEYCOUNT = 49  # 4 main rows x 10 + 9 thumbs
-
-
-def reduce_eglt(keys):
-    """Drop PAD_NOT_CONNECTED columns from an expanded Ergolite layer body,
-    leaving the 49 real keys (10 per main row + 9 thumbs)."""
-    main = EGLT_ROW_LEN * EGLT_NUM_MAIN_ROWS
-    if len(keys) <= main:
-        sys.exit(f"--eglt: body has {len(keys)} keys, expected > {main}")
-    out = []
-    for r in range(EGLT_NUM_MAIN_ROWS):
-        row = keys[r * EGLT_ROW_LEN:(r + 1) * EGLT_ROW_LEN]
-        out += [k for c, k in enumerate(row) if c not in EGLT_MAIN_PAD_COLS]
-    thumbs = keys[main:]
-    out += [k for c, k in enumerate(thumbs) if c not in EGLT_THUMB_PAD_COLS]
     return out
 
 
@@ -176,9 +152,6 @@ def main():
     ap.add_argument("--layout", required=True)
     ap.add_argument("--keycount", type=int, required=True)
     ap.add_argument("--combos-out", help="write keymap-drawer combos yaml here")
-    ap.add_argument("--eglt", action="store_true",
-                    help="if_rec mode: reduce each composite LAYOUT_eglt body to "
-                         "the 49 real Ergolite keys (see reduce_eglt)")
     args = ap.parse_args()
 
     src = read(args.keymap_c)
@@ -192,25 +165,19 @@ def main():
 
     max_idx = max(layer_idx[n] for n in assign)
     layers = [None] * (max_idx + 1)
-    out_keycount = EGLT_KEYCOUNT if args.eglt else args.keycount
     for lname, body_name in assign.items():
         keys = split_top(expand(bodies[body_name], defines, layer_idx))
         if len(keys) != args.keycount:
             sys.exit(f"{body_name}: got {len(keys)} keys, expected {args.keycount}")
-        if args.eglt:
-            keys = reduce_eglt(keys)
-            if len(keys) != EGLT_KEYCOUNT:
-                sys.exit(f"{body_name}: reduced to {len(keys)} keys, "
-                         f"expected {EGLT_KEYCOUNT}")
         layers[layer_idx[lname]] = keys
     for i, l in enumerate(layers):           # unused layers (e.g. POINTER on oldman)
         if l is None:
-            layers[i] = ["KC_NO"] * out_keycount
+            layers[i] = ["KC_NO"] * args.keycount
 
     with open(args.out_json, "w") as f:
         json.dump({"keyboard": args.keyboard, "keymap": "thomashexton",
                    "layout": args.layout, "layers": layers}, f, indent=2)
-    print(f"wrote {args.out_json}: {len(layers)} layers x {out_keycount} keys")
+    print(f"wrote {args.out_json}: {len(layers)} layers x {args.keycount} keys")
 
     if args.combos_out:
         pos = {kc: i for i, kc in enumerate(layers[layer_idx["LAYER_BASE"]])}
