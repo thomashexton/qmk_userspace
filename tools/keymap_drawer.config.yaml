@@ -1,0 +1,7 @@
+# keymap-drawer draw config for the thomashexton keymap diagrams.
+# Separate combo diagrams: each combo is drawn as its own mini-board with the
+# trigger keys highlighted, in a dedicated "Combos:" section. This scales
+# cleanly no matter how many combos a board has (unlike inline offsetting).
+draw_config:
+  separate_combo_diagrams: true
+  combo_diagrams_scale: 2

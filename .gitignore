@@ -14,3 +14,7 @@
 compile_commands.json
 .clangd/
 .cache/
+
+# Python (keymap-drawer tooling)
+__pycache__/
+*.pyc
