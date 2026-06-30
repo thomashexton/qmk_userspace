@@ -7,7 +7,7 @@
 #define LAYOUT_wrapper(...) LAYOUT(__VA_ARGS__)
 
 #define THUMB_L_INNER LT(LAYER_LOWER, KC_SPC)  // Left thumb near center → LOWER on hold, Space on tap
-#define THUMB_L_OUTER MO(LAYER_RAISE)          // Left outer thumb → RAISE
+#define THUMB_L_OUTER LT(LAYER_RAISE, KC_TAB)  // Left outer thumb → RAISE on hold, Tab on tap
 
 #define THUMB_R_INNER LT(LAYER_RAISE, KC_BSPC) // Right thumb near center → RAISE on hold, Backspace on tap
 #define THUMB_R_OUTER LT(LAYER_LOWER, KC_ENT)  // Right outer thumb → LOWER
@@ -15,7 +15,7 @@
 /* ────────────────────────────────────────────────────────────────────────── *
  *  COMBO TABLE
  * ────────────────────────────────────────────────────────────────────────── */
-// All combo definitions are now handled in users/thomashexton/combos.h
+// All combo definitions are now handled in users/thomashexton/combos.h.
 combo_t key_combos[] = {
     ALL_COMBOS
 };

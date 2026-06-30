@@ -154,7 +154,7 @@ static RGB layer_rgb(layer_state_t state) {
 /* ────────────────────────────────────────────────────────────────────────── *
  *  COMBO TABLE
  * ────────────────────────────────────────────────────────────────────────── */
-// All combo definitions are now handled in users/thomashexton/combos.h
+// All combo definitions are now handled in users/thomashexton/combos.h.
 combo_t key_combos[] = {
     ALL_COMBOS
 };

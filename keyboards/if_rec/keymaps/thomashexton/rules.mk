@@ -1,9 +1,4 @@
-VIA_ENABLE = yes
-VIAL_ENABLE = yes
-VIAL_INSECURE = yes
+# LTO keeps the receiver-composite firmware within flash. Combos come from
+# users/thomashexton/rules.mk; this keymap uses no tap-dance or key-overrides,
+# so nothing else is needed here.
 LTO_ENABLE = yes
-
-QMK_SETTINGS = yes
-TAP_DANCE_ENABLE = yes
-COMBO_ENABLE = yes
-KEY_OVERRIDE_ENABLE = yes
