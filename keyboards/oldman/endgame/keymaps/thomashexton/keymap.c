@@ -30,10 +30,10 @@ combo_t key_combos[] = {
              _______, THUMB_L_OUTER, THUMB_L_INNER, THUMB_R_INNER, THUMB_R_OUTER, _______
 
 #define LOWER_LAYER                                                                           \
- XXXXXXX, G(KC_LBRC), XXXXXXX, G(KC_RBRC), XXXXXXX, XXXXXXX, KC_7, KC_8, KC_9, XXXXXXX,       \
-                                  TH_HRM_LEFT_MODS, XXXXXXX, KC_4, KC_5, KC_6, XXXXXXX,       \
-    XXXXXXX, G(S(KC_LBRC)), XXXXXXX, G(S(KC_RBRC)), XXXXXXX, KC_0, KC_1, KC_2, KC_3, XXXXXXX, \
-       XXXXXXX,                   _______, _______, _______, _______,          XXXXXXX
+          XXXXXXX, G(KC_LBRC), XXXXXXX, G(KC_RBRC), XXXXXXX, XXXXXXX, KC_7, KC_8, KC_9, XXXXXXX,       \
+                                           TH_HRM_LEFT_MODS, XXXXXXX, KC_4, KC_5, KC_6, XXXXXXX,       \
+    XXXXXXX, G(S(KC_LBRC)), XXXXXXX, G(S(KC_RBRC)), XXXXXXX, KC_0,    KC_1, KC_2, KC_3, XXXXXXX, \
+                XXXXXXX,                   _______, _______, _______, _______,          XXXXXXX
 
 #define RAISE_LAYER                                                                              \
        XXXXXXX, KC_HOME,   KC_UP,  KC_END, KC_VOLU, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
