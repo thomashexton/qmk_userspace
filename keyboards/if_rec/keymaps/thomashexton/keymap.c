@@ -46,7 +46,7 @@ combo_t key_combos[] = {
     XXXXXXX,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    XXXXXXX,  XXXXXXX, KC_J,    KC_L,    KC_U,    KC_Y,    KC_QUOT, XXXXXXX, \
     XXXXXXX,            TH_HRM_LEFT(A, R, S, T),    KC_G,  XXXXXXX,  XXXXXXX, KC_M,    TH_HRM_RIGHT(N, E, I, O),           XXXXXXX, \
     XXXXXXX, KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,    KC_BSLS,   XXXXXXX, KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH, XXXXXXX, \
-    KC_LALT, KC_LCTL, THUMB_L_OUTER, THUMB_L_INNER, KC_ESC,          TO(LAYER_GAME), THUMB_R_INNER, THUMB_R_OUTER, XXXXXXX, KC_RGUI
+    XXXXXXX, XXXXXXX, THUMB_L_OUTER, THUMB_L_INNER, XXXXXXX,         TO(LAYER_GAME), THUMB_R_INNER, THUMB_R_OUTER, XXXXXXX, XXXXXXX
 
 #define RAISE_LAYER                                                                                               \
     _______, _______, _______, _______, _______, _______, _______,   _______, _______, _______, _______, _______, _______, _______, \
