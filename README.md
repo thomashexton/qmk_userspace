@@ -39,6 +39,17 @@ This is a template repository which allows for an external set of QMK keymaps to
 
 Alternatively, if you configured your build targets above, you can use `qmk userspace-compile` to build all of your userspace targets at once.
 
+## Keymap diagrams
+
+SVG diagrams of the `thomashexton` keymaps live in [`docs/keymaps/`](docs/keymaps/README.md),
+one per board. Regenerate them after editing a `keymap.c` with:
+
+```sh
+./tools/draw_keymaps.sh
+```
+
+See [`docs/keymaps/README.md`](docs/keymaps/README.md) for the generation pipeline, requirements, and per-board notes (e.g. the IFKB Ergolite's hand-authored physical layout).
+
 ## Extra info
 
 If you wish to point GitHub actions to a different repository, a different branch, or even a different keymap name, you can modify `.github/workflows/build_binaries.yml` to suit your needs.
