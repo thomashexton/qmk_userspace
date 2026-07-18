@@ -17,7 +17,6 @@
 
 enum keymap_keycodes {
     P_SCROLL = SAFE_RANGE,
-    P_DEBUG,
 };
 
 static bool  pointer_scroll_active         = false;
@@ -33,11 +32,6 @@ static float pointer_scroll_remainder_v = 0.0f;
 #define POINTER_SCROLL_DIVISOR 10.0f
 #define POINTER_SCROLL_SETTLE_MS 30
 #define POINTER_SCROLL_MAX_INPUT 30
-#define POINTER_DEBUG_MOVE_THRESHOLD 8
-
-#ifdef CONSOLE_ENABLE
-static bool pointer_debug_enabled = false;
-#endif
 
 static bool pointer_scroll_is_settling(void) {
     return pointer_scroll_transitioning && timer_elapsed32(pointer_scroll_changed_at) < POINTER_SCROLL_SETTLE_MS;
@@ -70,45 +64,6 @@ static uint16_t pointer_normal_cpi(void) {
 static void restore_pointer_cpi(void) {
     pointing_device_set_cpi(pointer_normal_cpi());
 }
-
-#ifdef CONSOLE_ENABLE
-static int16_t pointer_scroll_remainder_x100(float remainder) {
-    return (int16_t)(remainder * 100.0f);
-}
-
-static void pointer_debug_report(const char *stage, report_mouse_t in, report_mouse_t out) {
-    if (!pointer_debug_enabled) {
-        return;
-    }
-
-    if (in.x == 0 && in.y == 0 && in.h == 0 && in.v == 0 && out.x == 0 && out.y == 0 && out.h == 0 && out.v == 0) {
-        return;
-    }
-
-    if (!pointer_scroll_active && !pointer_scroll_is_settling() && abs(in.x) < POINTER_DEBUG_MOVE_THRESHOLD && abs(in.y) < POINTER_DEBUG_MOVE_THRESHOLD) {
-        return;
-    }
-
-    uprintf("PTR:%s t=%lu cpi=%u scroll=%u settle=%u in=%d,%d,%d,%d out=%d,%d,%d,%d rem=%d,%d\n",
-            stage,
-            timer_read32(),
-            pointing_device_get_cpi(),
-            pointer_scroll_active,
-            pointer_scroll_is_settling(),
-            (int)in.x,
-            (int)in.y,
-            (int)in.h,
-            (int)in.v,
-            (int)out.x,
-            (int)out.y,
-            (int)out.h,
-            (int)out.v,
-            (int)pointer_scroll_remainder_x100(pointer_scroll_remainder_h),
-            (int)pointer_scroll_remainder_x100(pointer_scroll_remainder_v));
-}
-#else
-#    define pointer_debug_report(stage, in, out) ((void)0)
-#endif
 
 static void set_pointer_scroll(bool active) {
     pointer_scroll_active        = active;
@@ -187,7 +142,7 @@ combo_t key_combos[] = {
                       XXXXXXX, _______, _______, _______, _______
 
 #define POINTER_LAYER                                                                                     \
-    P_DEBUG, MA_TOGG, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_SPD,  RGB_TOG, RGB_SPI, XXXXXXX,        \
+    XXXXXXX, MA_TOGG, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_SPD,  RGB_TOG, RGB_SPI, XXXXXXX,        \
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_RMOD, XXXXXXX, RGB_MOD, XXXXXXX,        \
    XXXXXXX, XXXXXXX, P_SCROLL, XXXXXXX, XXXXXXX, XXXXXXX, DPI_RMOD, P_SCROLL, DPI_MOD, XXXXXXX, \
                       XXXXXXX, KC_BTN1, KC_BTN3, KC_BTN3, KC_BTN1
@@ -238,11 +193,8 @@ bool pointing_device_accel_should_process(void) {
 }
 
 report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
-    const report_mouse_t input_report = mouse_report;
-
     if (pointer_scroll_is_settling()) {
         clear_pointer_axes(&mouse_report);
-        pointer_debug_report("settle", input_report, mouse_report);
         return mouse_report;
     }
 
@@ -257,7 +209,6 @@ report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
         if (pointer_scroll_just_activated) {
             pointer_scroll_just_activated = false;
             clear_pointer_axes(&mouse_report);
-            pointer_debug_report("first", input_report, mouse_report);
             return mouse_report;
         }
 
@@ -276,11 +227,9 @@ report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
         mouse_report.x = 0;
         mouse_report.y = 0;
 
-        pointer_debug_report("scroll", input_report, mouse_report);
         return mouse_report;
     }
 
-    pointer_debug_report("move", input_report, mouse_report);
     return mouse_report;
 }
 #endif
@@ -320,16 +269,6 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case P_SCROLL:
             set_pointer_scroll(record->event.pressed);
-            return false;
-        case P_DEBUG:
-#ifdef CONSOLE_ENABLE
-            if (record->event.pressed) {
-                pointer_debug_enabled = !pointer_debug_enabled;
-                debug_enable          = false;
-                debug_mouse           = false;
-                uprintf("PTR:debug %u\n", pointer_debug_enabled);
-            }
-#endif
             return false;
         default:
             return true;
