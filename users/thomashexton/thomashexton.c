@@ -5,14 +5,44 @@
  *  USER FUNCTIONS
  * ────────────────────────────────────────────────────────────────────────── */
 
+#ifdef FLOW_TAP_TERM
+// Exempt the Shift HRMs from Flow Tap: Shift is the one mod needed mid-typing
+// (capitals), and Chordal Hold already forces same-hand rolls onto these keys
+// to resolve as taps. Ctrl/Alt/GUI HRMs keep the full Flow Tap protection.
+uint16_t get_flow_tap_term(uint16_t keycode, keyrecord_t *record, uint16_t prev_keycode) {
+    if (IS_QK_MOD_TAP(keycode) && (QK_MOD_TAP_GET_MODS(keycode) & MOD_LSFT) != 0) {
+        return 0; // MOD_LSFT bit is set for both LSFT_T and RSFT_T keys.
+    }
+    if (is_flow_tap_key(keycode) && is_flow_tap_key(prev_keycode)) {
+        return FLOW_TAP_TERM;
+    }
+    return 0;
+}
+#endif
+
+#ifdef TAPPING_TERM_PER_KEY
+// Shift mod-taps (home-row T/N and the thumb shifts) keep the old snappy 150 ms
+// so capitals stay easy; every other mod-tap uses the longer base TAPPING_TERM
+// (200) to make accidental holds — especially GUI on E/S — much harder to trip.
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    if (IS_QK_MOD_TAP(keycode) && (QK_MOD_TAP_GET_MODS(keycode) & MOD_LSFT) != 0) {
+        return 150; // MOD_LSFT bit is set for both LSFT_T and RSFT_T keys.
+    }
+    return TAPPING_TERM;
+}
+#endif
+
 #ifdef HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     (void)record;
 
+    // Layer-tap thumbs only. The shift thumbs (LSFT_T/RSFT_T) are deliberately
+    // NOT listed: instant-hold on a Space/Enter/Tab shift key would turn fast
+    // rolls into stray capitals; permissive hold settles those instead.
     switch (keycode) {
-        case LT(LAYER_RAISE, KC_SPC):
-        case LT(LAYER_RAISE, KC_ENT):
-        case LT(LAYER_LOWER, KC_BSPC):
+        case LT(LAYER_RAISE, KC_SPC):  // charybdis / if_rec left outer
+        case LT(LAYER_LOWER, KC_BSPC): // charybdis / if_rec right outer
+        case LT(LAYER_LOWER, KC_TAB):  // if_rec left thumb outboard of Space
             return true;
         default:
             return false;
@@ -106,9 +136,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     // Handle backspace with custom shift behavior: Shift + Backspace = Delete
-    // This works for ANY layer-tap key with KC_BSPC as the tap keycode
-    if ((keycode >= QK_LAYER_TAP && keycode <= QK_LAYER_TAP_MAX)) {
-        // Extract the tap keycode from the layer-tap key
+    // This works for ANY layer-tap or mod-tap key with KC_BSPC as the tap keycode
+    if ((keycode >= QK_LAYER_TAP && keycode <= QK_LAYER_TAP_MAX) || (keycode >= QK_MOD_TAP && keycode <= QK_MOD_TAP_MAX)) {
+        // Extract the tap keycode from the layer-tap/mod-tap key
         uint16_t tap_keycode = keycode & 0xFF;
         if (tap_keycode == KC_BSPC) {
             if (record->event.pressed && record->tap.count) {

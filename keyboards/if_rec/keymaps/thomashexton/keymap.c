@@ -13,11 +13,12 @@
 /* ────────────────────────────────────────────────────────────────────────── *
  *  KEYMAP HELPERS
  * ────────────────────────────────────────────────────────────────────────── */
+#define THUMB_L_TAB   LT(LAYER_LOWER, KC_TAB)  // Left thumb outboard of Space → LOWER (NAV), tap for Tab
 #define THUMB_L_OUTER LT(LAYER_RAISE, KC_SPC)  // Left outer thumb → RAISE (NUM)
-#define THUMB_L_INNER MO(LAYER_LOWER)          // Left inner thumb → LOWER (NAV)
+#define THUMB_L_INNER OSM(MOD_LSFT)            // Left inner thumb → one-shot Shift (hold works as normal Shift)
 
 #define THUMB_R_OUTER LT(LAYER_LOWER, KC_BSPC) // Right outer thumb → LOWER (NAV)
-#define THUMB_R_INNER LT(LAYER_RAISE, KC_ENT)  // Right inner thumb → RAISE (NUM)
+#define THUMB_R_INNER RSFT_T(KC_ENT)           // Right inner thumb → Shift on hold, Enter on tap
 
 // Padding for the three IFKB boards that are not connected to this dongle.
 #define XX7  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
@@ -46,13 +47,13 @@ combo_t key_combos[] = {
     XXXXXXX,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    XXXXXXX,  XXXXXXX, KC_J,    KC_L,    KC_U,    KC_Y,    KC_QUOT, XXXXXXX, \
     XXXXXXX,            TH_HRM_LEFT(A, R, S, T),    KC_G,  XXXXXXX,  XXXXXXX, KC_M,    TH_HRM_RIGHT(N, E, I, O),           XXXXXXX, \
     XXXXXXX, KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,    KC_BSLS,   XXXXXXX, KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH, XXXXXXX, \
-    XXXXXXX, XXXXXXX, THUMB_L_OUTER, THUMB_L_INNER, XXXXXXX,         TO(LAYER_GAME), THUMB_R_INNER, THUMB_R_OUTER, XXXXXXX, XXXXXXX
+    XXXXXXX, THUMB_L_TAB, THUMB_L_OUTER, THUMB_L_INNER, XXXXXXX,     TO(LAYER_GAME), THUMB_R_INNER, THUMB_R_OUTER, XXXXXXX, XXXXXXX
 
 #define RAISE_LAYER                                                                                               \
     _______, _______, _______, _______, _______, _______, _______,   _______, _______, _______, _______, _______, _______, _______, \
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, KC_7,    KC_8,    KC_9,    XXXXXXX, XXXXXXX, \
+    XXXXXXX, XXXXXXX, G(S(KC_LBRC)), XXXXXXX, G(S(KC_RBRC)), XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, KC_7,    KC_8,    KC_9,    XXXXXXX, XXXXXXX, \
     XXXXXXX, TH_HRM_LEFT_MODS,                            XXXXXXX,   XXXXXXX, XXXXXXX, KC_4,    KC_5,    KC_6,    KC_0,    XXXXXXX, \
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, KC_1,    KC_2,    KC_3,    XXXXXXX, XXXXXXX, \
+    XXXXXXX, XXXXXXX, G(KC_LBRC),    XXXXXXX, G(KC_RBRC),    XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, KC_1,    KC_2,    KC_3,    XXXXXXX, XXXXXXX, \
     _______, _______, _______, _______, _______,                     XXXXXXX, _______, _______, _______, _______
 
 #define LOWER_LAYER                                                                                               \

@@ -7,10 +7,10 @@
 #define LAYOUT_wrapper(...) LAYOUT(__VA_ARGS__)
 
 #define THUMB_L_OUTER LT(LAYER_RAISE, KC_SPC)  // Left outer thumb → RAISE (NUM)
-#define THUMB_L_INNER MO(LAYER_LOWER)          // Left thumb near center → LOWER (NAV)
+#define THUMB_L_INNER LSFT_T(KC_TAB)           // Left thumb near center → Shift on hold, Tab on tap
 
 #define THUMB_R_OUTER LT(LAYER_LOWER, KC_BSPC) // Right outer thumb → LOWER (NAV)
-#define THUMB_R_INNER LT(LAYER_RAISE, KC_ENT)  // Right thumb near center → RAISE (NUM)
+#define THUMB_R_INNER RSFT_T(KC_ENT)           // Right thumb near center → Shift on hold, Enter on tap
 
 #define POINTER_HOLD_L LT(LAYER_POINTER, KC_D) // Hold D for pointer layer, tap for D
 #define POINTER_HOLD_R LT(LAYER_POINTER, KC_H) // Hold H for pointer layer, tap for H
@@ -123,10 +123,10 @@ combo_t key_combos[] = {
                KC_Z, KC_X, KC_C, POINTER_HOLD_L, KC_V, KC_K, POINTER_HOLD_R, KC_COMM, KC_DOT, KC_SLSH, \
           XXXXXXX, THUMB_L_OUTER, THUMB_L_INNER, THUMB_R_INNER, THUMB_R_OUTER
 
-#define RAISE_LAYER                                                                        \
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,   KC_7,   KC_8,   KC_9, XXXXXXX, \
-                               TH_HRM_LEFT_MODS, XXXXXXX,   KC_4,   KC_5,   KC_6, XXXXXXX, \
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    KC_0,   KC_1,   KC_2,   KC_3, XXXXXXX, \
+#define RAISE_LAYER                                                                                    \
+    XXXXXXX, G(S(KC_LBRC)), XXXXXXX, G(S(KC_RBRC)), XXXXXXX, XXXXXXX,   KC_7,   KC_8,   KC_9, XXXXXXX, \
+                               TH_HRM_LEFT_MODS, XXXXXXX,   KC_4,   KC_5,   KC_6, KC_0,                \
+    XXXXXXX,    G(KC_LBRC), XXXXXXX,    G(KC_RBRC), XXXXXXX,    KC_0,   KC_1,   KC_2,   KC_3, XXXXXXX, \
                       XXXXXXX, _______, _______, _______, _______
 
 #define LOWER_LAYER                                                                           \
@@ -172,6 +172,20 @@ const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM = LAYOUT_wrappe
               '*', '*', '*',   '*', '*'
 );
 // clang-format on
+
+// The pointer layer-taps (hold D / hold H) live on the same hand as the scroll
+// key that follows them (C / comma), so the default same-hand chordal rule forces
+// them to tap and the scroll gesture never engages. Exempt just those two keys so
+// they always resolve as a hold; flow tap still keeps them as plain taps mid-typing.
+bool get_chordal_hold(uint16_t tap_hold_keycode, keyrecord_t *tap_hold_record, uint16_t other_keycode, keyrecord_t *other_record) {
+    switch (tap_hold_keycode) {
+        case POINTER_HOLD_L:
+        case POINTER_HOLD_R:
+            return true;
+        default:
+            return get_chordal_hold_default(tap_hold_record, other_record);
+    }
+}
 #endif
 
 /* ────────────────────────────────────────────────────────────────────────── *

@@ -2,21 +2,35 @@
 #ifdef TAPPING_TERM
 #    undef TAPPING_TERM
 #endif
-#define TAPPING_TERM 150
+// Base term is deliberately long (200) to curb accidental holds — chiefly GUI on
+// the high-frequency E/S keys (a lingering E → Cmd+N etc). The Shift HRMs get a
+// shorter term via get_tapping_term() in thomashexton.c so capitals stay snappy.
+#define TAPPING_TERM 200
+#ifndef TAPPING_TERM_PER_KEY
+#    define TAPPING_TERM_PER_KEY
+#endif
 // Home-row-mod anti-misfire stack:
-//   - CHORDAL_HOLD  : a tap-hold only becomes a mod/layer if the *next* key is
-//                     on the opposite hand; same-hand rolls stay taps. Requires
-//                     per-board handedness — see chordal_hold_layout in each
-//                     board's keymap.c (thumbs are marked '*' so they always
-//                     hold). Without that array the build fails to link.
-//   - FLOW_TAP_TERM : within this many ms of a previous typing key, a tap-hold
-//                     key is forced to tap — kills mod misfires during fast
-//                     typing bursts. Tune up/down to taste.
+//   - CHORDAL_HOLD    : a tap-hold only becomes a mod/layer if the *next* key is
+//                       on the opposite hand; same-hand rolls stay taps. Requires
+//                       per-board handedness — see chordal_hold_layout in each
+//                       board's keymap.c (thumbs are marked '*' so they always
+//                       hold). Without that array the build fails to link.
+//   - PERMISSIVE_HOLD : a cross-hand key pressed AND released while the tap-hold
+//                       is down settles it as hold immediately, so intentional
+//                       chords (e.g. HRM-shift + opposite-hand letter) work at
+//                       any typing speed instead of waiting out TAPPING_TERM.
+//   - FLOW_TAP_TERM   : within this many ms of a previous typing key, a tap-hold
+//                       key is forced to tap — kills mod misfires during fast
+//                       typing bursts. The Shift HRMs are EXEMPT via
+//                       get_flow_tap_term() in thomashexton.c, because Shift is
+//                       the one mod used mid-typing-stream (capitals); without
+//                       the exemption fast "HRM-shift + letter" came out as two
+//                       lowercase letters.
 #ifndef CHORDAL_HOLD
 #    define CHORDAL_HOLD
 #endif
-#ifdef PERMISSIVE_HOLD
-#    undef PERMISSIVE_HOLD
+#ifndef PERMISSIVE_HOLD
+#    define PERMISSIVE_HOLD
 #endif
 #define FLOW_TAP_TERM 150
 #ifndef HOLD_ON_OTHER_KEY_PRESS_PER_KEY
