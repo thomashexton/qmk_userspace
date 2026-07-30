@@ -68,7 +68,7 @@ combo_t key_combos[] = {
     QK_BOOT,  _______, _______, _______, _______, _______, _______,   _______, _______, _______, _______, _______, _______, _______, \
     XXXXXXX, KC_GRV,  KC_BSLS, KC_MINS, KC_UNDS, XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, KC_EQL,  KC_PLUS, KC_SLSH, KC_PIPE, XXXXXXX, \
     XXXXXXX, TH_HRM_LEFT_MODS,                            XXXXXXX,   XXXXXXX, TH_HRM_RIGHT_MODS,                           XXXXXXX, \
-    XXXXXXX, KC_LABK, KC_LBRC, KC_LCBR, KC_LPRN, XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, KC_RPRN, KC_RCBR, KC_RBRC, KC_RABK, XXXXXXX, \
+    XXXXXXX, KC_LABK, KC_LCBR, KC_LBRC, KC_LPRN, XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, KC_RPRN, KC_RBRC, KC_RCBR, KC_RABK, XXXXXXX, \
     _______, _______, _______, _______, _______,                     XXXXXXX, _______, _______, _______, _______
 
 #define GAME_LAYER                                                                                                \

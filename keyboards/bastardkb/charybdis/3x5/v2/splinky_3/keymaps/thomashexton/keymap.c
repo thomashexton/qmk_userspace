@@ -138,7 +138,7 @@ combo_t key_combos[] = {
 #define SYMBOL_LAYER                                                                          \
     KC_GRV,  KC_BSLS, KC_MINS, KC_UNDS, XXXXXXX, XXXXXXX, KC_EQL,  KC_PLUS, KC_SLSH, KC_PIPE, \
                                TH_HRM_LEFT_MODS, TH_HRM_RIGHT_MODS,                           \
-    KC_LABK, KC_LBRC, KC_LCBR, KC_LPRN, XXXXXXX, XXXXXXX, KC_RPRN, KC_RCBR, KC_RBRC, KC_RABK, \
+    KC_LABK, KC_LCBR, KC_LBRC, KC_LPRN, XXXXXXX, XXXXXXX, KC_RPRN, KC_RBRC, KC_RCBR, KC_RABK, \
                       XXXXXXX, _______, _______, _______, _______
 
 #define POINTER_LAYER                                                                                     \
