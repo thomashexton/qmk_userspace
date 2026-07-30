@@ -3,6 +3,7 @@
     "build_targets": [
         ["bastardkb/charybdis/3x5/v2/splinky_3", "thomashexton"],
         ["oldman/endgame", "thomashexton"],
-        ["if_rec", "thomashexton"]
+        ["if_rec", "thomashexton"],
+        ["if_rec", "thomashexton_entropy"]
     ]
 }

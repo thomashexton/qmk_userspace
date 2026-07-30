@@ -6,12 +6,16 @@
  * ────────────────────────────────────────────────────────────────────────── */
 
 #ifdef FLOW_TAP_TERM
-// Exempt the Shift HRMs from Flow Tap: Shift is the one mod needed mid-typing
-// (capitals), and Chordal Hold already forces same-hand rolls onto these keys
-// to resolve as taps. Ctrl/Alt/GUI HRMs keep the full Flow Tap protection.
+// Exempt Shift mod-taps and the Space layer-tap from Flow Tap. Shift is needed
+// mid-typing for capitals, while Space must remain holdable immediately after a
+// word so the number/symbol layers do not require a pause. Ctrl/Alt/GUI HRMs
+// keep the full Flow Tap protection.
 uint16_t get_flow_tap_term(uint16_t keycode, keyrecord_t *record, uint16_t prev_keycode) {
     if (IS_QK_MOD_TAP(keycode) && (QK_MOD_TAP_GET_MODS(keycode) & MOD_LSFT) != 0) {
         return 0; // MOD_LSFT bit is set for both LSFT_T and RSFT_T keys.
+    }
+    if (IS_QK_LAYER_TAP(keycode) && QK_LAYER_TAP_GET_TAP_KEYCODE(keycode) == KC_SPC) {
+        return 0;
     }
     if (is_flow_tap_key(keycode) && is_flow_tap_key(prev_keycode)) {
         return FLOW_TAP_TERM;

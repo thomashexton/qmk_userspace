@@ -21,11 +21,10 @@
 //                       any typing speed instead of waiting out TAPPING_TERM.
 //   - FLOW_TAP_TERM   : within this many ms of a previous typing key, a tap-hold
 //                       key is forced to tap — kills mod misfires during fast
-//                       typing bursts. The Shift HRMs are EXEMPT via
-//                       get_flow_tap_term() in thomashexton.c, because Shift is
-//                       the one mod used mid-typing-stream (capitals); without
-//                       the exemption fast "HRM-shift + letter" came out as two
-//                       lowercase letters.
+//                       typing bursts. Shift mod-taps and the Space layer-tap
+//                       are EXEMPT via get_flow_tap_term() in thomashexton.c:
+//                       Shift is needed mid-stream for capitals, while Space
+//                       must remain holdable after a word to reach layers.
 #ifndef CHORDAL_HOLD
 #    define CHORDAL_HOLD
 #endif
