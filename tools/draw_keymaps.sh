@@ -29,7 +29,8 @@ LAYER_NAMES=(Base Raise Lower Pointer Symbol Game)
 # board_keyboard | keymap_dir | layers_to_draw
 BOARDS=(
   "oldman/endgame|oldman/endgame|Base Raise Lower Symbol"
-  "bastardkb/charybdis/3x5/v2/splinky_3|bastardkb/charybdis/3x5/v2/splinky_3|Base Raise Lower Symbol Pointer"
+  "bastardkb/charybdis/3x5/splinky_3|bastardkb/charybdis/3x5/splinky_3|Base Raise Lower Symbol Pointer"
+  "ieneko58o|ieneko58o|Base Raise Lower Symbol"
 )
 
 draw_board() {

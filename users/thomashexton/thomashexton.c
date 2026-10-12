@@ -40,12 +40,20 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     (void)record;
 
-    // Layer-tap thumbs only. The shift thumbs (LSFT_T/RSFT_T) are deliberately
-    // NOT listed: instant-hold on a Space/Enter/Tab shift key would turn fast
-    // rolls into stray capitals; permissive hold settles those instead.
+    // Instant-hold means a tap-hold settles as HOLD the moment any other key goes
+    // DOWN. That breaks rolls: `space-down letter-down space-up letter-up` fires
+    // the hold, so the letter is looked up on the layer, where most positions are
+    // XXXXXXX — the character silently vanishes.
+    //
+    // So the Space and Backspace thumbs are NOT listed. They fall back to
+    // PERMISSIVE_HOLD, which needs the other key pressed AND released while the
+    // thumb is still down. A roll never does that, so it settles as a tap; a
+    // deliberate layer chord does, so it still holds with no wait.
+    //
+    // The shift thumbs (LSFT_T/RSFT_T) are excluded for the same reason — instant
+    // hold there turns fast rolls into stray capitals.
     switch (keycode) {
-        case LT(LAYER_RAISE, KC_SPC):  // charybdis / if_rec left outer
-        case LT(LAYER_LOWER, KC_BSPC): // charybdis / if_rec right outer
+        // Tab is never typed mid-word, so a roll off it is not a realistic risk.
         case LT(LAYER_LOWER, KC_TAB):  // if_rec left thumb outboard of Space
             return true;
         default:

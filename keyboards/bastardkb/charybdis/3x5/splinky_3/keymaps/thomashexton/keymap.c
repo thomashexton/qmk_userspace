@@ -138,14 +138,14 @@ combo_t key_combos[] = {
 #define SYMBOL_LAYER                                                                          \
     KC_GRV,  KC_BSLS, KC_MINS, KC_UNDS, XXXXXXX, XXXXXXX, KC_EQL,  KC_PLUS, KC_SLSH, KC_PIPE, \
                                TH_HRM_LEFT_MODS, TH_HRM_RIGHT_MODS,                           \
-    KC_LABK, KC_LCBR, KC_LBRC, KC_LPRN, XXXXXXX, XXXXXXX, KC_RPRN, KC_RBRC, KC_RCBR, KC_RABK, \
+    KC_LBRC, KC_LCBR, KC_LABK, KC_LPRN, XXXXXXX, XXXXXXX, KC_RPRN, KC_RABK, KC_RCBR, KC_RBRC, \
                       XXXXXXX, _______, _______, _______, _______
 
 #define POINTER_LAYER                                                                                     \
-    XXXXXXX, MA_TOGG, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_SPD,  RGB_TOG, RGB_SPI, XXXXXXX,        \
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_RMOD, XXXXXXX, RGB_MOD, XXXXXXX,        \
+    XXXXXXX, MA_TOGG, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RM_SPDD,  RM_TOGG, RM_SPDU, XXXXXXX,        \
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RM_PREV, XXXXXXX, RM_NEXT, XXXXXXX,        \
    XXXXXXX, XXXXXXX, P_SCROLL, XXXXXXX, XXXXXXX, XXXXXXX, DPI_RMOD, P_SCROLL, DPI_MOD, XXXXXXX, \
-                      XXXXXXX, KC_BTN1, KC_BTN3, KC_BTN3, KC_BTN1
+                      XXXXXXX, MS_BTN1, MS_BTN3, MS_BTN3, MS_BTN1
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {

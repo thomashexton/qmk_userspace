@@ -13,7 +13,7 @@
     static const uint16_t PROGMEM tab_combo[]           = {KC_U, KC_Y, COMBO_END};
 
 // Mouse button combos
-    static const uint16_t PROGMEM right_click_combo[]   = {KC_BTN1, KC_BTN3, COMBO_END};
+    static const uint16_t PROGMEM right_click_combo[]   = {MS_BTN1, MS_BTN3, COMBO_END};
 
 /* ────────────────────────────────────────────────────────────────────────── *
  *  SIMPLE COMBO TABLE MACRO
@@ -22,4 +22,4 @@
     COMBO(bootloader_combo, QK_BOOT), \
     COMBO(escape_combo, KC_ESC), \
     COMBO(tab_combo, KC_TAB), \
-    COMBO(right_click_combo, KC_BTN2)
+    COMBO(right_click_combo, MS_BTN2)

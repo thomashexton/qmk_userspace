@@ -31,7 +31,9 @@
 #ifndef PERMISSIVE_HOLD
 #    define PERMISSIVE_HOLD
 #endif
-#define FLOW_TAP_TERM 150
+#ifndef FLOW_TAP_TERM
+#    define FLOW_TAP_TERM 150
+#endif
 #ifndef HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 #    define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 #endif

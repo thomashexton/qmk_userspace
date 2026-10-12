@@ -9,10 +9,10 @@
 // On the oldman the INNER thumb keys sit physically under the thumbs, so the
 // layer-taps live there (unlike the charybdis, where they're on the outer keys).
 // The less-reachable OUTER thumbs carry the shift trial.
-#define THUMB_L_INNER LT(LAYER_LOWER, KC_SPC)  // Left inner (under thumb) → LOWER (numbers) on hold, Space on tap
+#define THUMB_L_INNER LT(LAYER_RAISE, KC_SPC)  // Left inner (under thumb) → RAISE (numbers) on hold, Space on tap
 #define THUMB_L_OUTER LSFT_T(KC_TAB)           // Left outer → Shift on hold, Tab on tap
 
-#define THUMB_R_INNER LT(LAYER_RAISE, KC_BSPC) // Right inner (under thumb) → RAISE (nav) on hold, Backspace on tap
+#define THUMB_R_INNER LT(LAYER_LOWER, KC_BSPC) // Right inner (under thumb) → LOWER (nav) on hold, Backspace on tap
 #define THUMB_R_OUTER RSFT_T(KC_ENT)           // Right outer → Shift on hold, Enter on tap
 
 /* ────────────────────────────────────────────────────────────────────────── *
@@ -32,15 +32,15 @@ combo_t key_combos[] = {
                       KC_Z, KC_X, KC_C, KC_D, KC_V, KC_K, KC_H, KC_COMM, KC_DOT, KC_SLSH,        \
              _______, THUMB_L_OUTER, THUMB_L_INNER, THUMB_R_INNER, THUMB_R_OUTER, _______
 
-// Oldman keeps its own (reversed-vs-charybdis) layer arrangement on purpose:
-// LOWER = numbers (left inner thumb), RAISE = nav (right inner thumb).
-#define LOWER_LAYER                                                                              \
+// Layer names match the rest of the userspace: RAISE = numbers (left inner
+// thumb), LOWER = nav (right inner thumb).
+#define RAISE_LAYER                                                                              \
     XXXXXXX, G(S(KC_LBRC)), XXXXXXX, G(S(KC_RBRC)), XXXXXXX, XXXXXXX, KC_7, KC_8, KC_9, XXXXXXX, \
                                   TH_HRM_LEFT_MODS, XXXXXXX, KC_4, KC_5, KC_6, KC_0,             \
  XXXXXXX, G(KC_LBRC), XXXXXXX, G(KC_RBRC), XXXXXXX, KC_0,    KC_1, KC_2, KC_3, XXXXXXX,          \
        XXXXXXX,                   _______, _______, _______, _______,          XXXXXXX
 
-#define RAISE_LAYER                                                                              \
+#define LOWER_LAYER                                                                              \
        XXXXXXX, KC_HOME,   KC_UP,  KC_END, KC_VOLU, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
        XXXXXXX, KC_LEFT, KC_DOWN, KC_RGHT, KC_VOLD, TH_HRM_RIGHT_MODS,                           \
        XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
@@ -49,7 +49,7 @@ combo_t key_combos[] = {
 #define SYMBOL_LAYER                                                                             \
        KC_GRV,  KC_BSLS, KC_MINS, KC_UNDS, XXXXXXX, XXXXXXX, KC_EQL,  KC_PLUS, KC_SLSH, KC_PIPE, \
                                   TH_HRM_LEFT_MODS, TH_HRM_RIGHT_MODS,                           \
-       KC_LABK, KC_LCBR, KC_LBRC, KC_LPRN, XXXXXXX, XXXXXXX, KC_RPRN, KC_RBRC, KC_RCBR, KC_RABK, \
+       KC_LBRC, KC_LCBR, KC_LABK, KC_LPRN, XXXXXXX, XXXXXXX, KC_RPRN, KC_RABK, KC_RCBR, KC_RBRC, \
        XXXXXXX,                   _______, _______, _______, _______,                   XXXXXXX
 
 // clang-format off
