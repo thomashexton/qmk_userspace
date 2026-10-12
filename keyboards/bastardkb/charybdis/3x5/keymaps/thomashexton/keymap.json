@@ -1,4 +1,5 @@
 {
+    "converter": "rp2040_ce",
     "modules": [
         "drashna/pointing_device_accel"
     ]

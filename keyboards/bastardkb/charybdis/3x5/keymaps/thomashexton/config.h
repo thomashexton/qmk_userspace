@@ -1,5 +1,8 @@
 #pragma once
 
+/* USB connects to the right half. */
+#define MASTER_RIGHT
+
 #define CHARYBDIS_MINIMUM_DEFAULT_DPI 400
 #define CHARYBDIS_DEFAULT_DPI_CONFIG_STEP 200
 

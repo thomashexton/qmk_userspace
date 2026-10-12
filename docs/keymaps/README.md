@@ -9,7 +9,7 @@ mini-boards in a "Combos:" section).
 | Board | Diagram |
 |-------|---------|
 | oldman/endgame | [oldman_endgame.svg](oldman_endgame.svg) |
-| bastardkb/charybdis 3x5 | [bastardkb_charybdis_3x5_v2_splinky_3.svg](bastardkb_charybdis_3x5_v2_splinky_3.svg) |
+| bastardkb/charybdis 3x5 | [bastardkb_charybdis_3x5_elitec.svg](bastardkb_charybdis_3x5_elitec.svg) |
 | IFKB Ergolite (if_rec firmware) | [ergolite.svg](ergolite.svg) |
 
 ## Regenerating
