@@ -1,5 +1,36 @@
 # QMK Userspace
 
+## Quick start (thomashexton)
+
+```sh
+cd ~/qmk/qmk_userspace
+nix develop          # prints the commands below
+qmk-sync             # pull this repo, modules and the firmware fork
+qmk-build [board]    # build one board, or all of them
+qmk-flash <board>    # build and flash; run with no board to list them
+```
+
+Keymaps live in `keyboards/<board>/keymaps/thomashexton/` and shared code in
+`users/thomashexton/`. Keyboard definitions that are not in upstream QMK live in
+the firmware fork, not here.
+
+### One-time setup on a new machine
+
+```sh
+mkdir -p ~/qmk && cd ~/qmk
+git clone --recurse-submodules git@github.com:thomashexton/qmk_userspace.git
+git clone --recurse-submodules --branch thomashexton-boards \
+  git@github.com:thomashexton/qmk_firmware.git
+git -C qmk_userspace config submodule.recurse true
+```
+
+The two repos must sit side by side. `qmk_firmware` is upstream QMK plus custom
+keyboard definitions on the `thomashexton-boards` branch. To update it from
+upstream: `git -C ~/qmk/qmk_firmware pull upstream master` (after
+`git remote add upstream https://github.com/qmk/qmk_firmware.git`).
+
+---
+
 This is a template repository which allows for an external set of QMK keymaps to be defined and compiled. This is useful for users who want to maintain their own keymaps without having to fork the [main QMK repository](https://github.com/qmk/qmk_firmware). You must still fork the main QMK repository if writing firmware for a *new* keyboard.
 
 ## Howto configure your build targets
@@ -19,7 +50,7 @@ This is a template repository which allows for an external set of QMK keymaps to
     * Listing the build targets can be done with `qmk userspace-list`
 1. Commit your changes
 
-## Howto build with GitHub
+## Howto build with GitHub (not used; builds are local)
 
 1. In the GitHub Actions tab, enable workflows
 1. Push your changes above to your forked GitHub repository
