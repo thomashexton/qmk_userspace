@@ -10,7 +10,7 @@ enum user_layers {
     LAYER_LOWER,
     LAYER_POINTER,
     LAYER_SYMBOL,
-    LAYER_GAME      // QWERTY gaming layer (currently used by if_rec/Ergolite)
+    LAYER_GAME      // Gaming: if_rec QWERTY; ieneko58o Colemak FRST (plain, no HRM)
 };
 // clang-format on
 

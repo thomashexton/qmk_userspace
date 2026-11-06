@@ -11,6 +11,7 @@ mini-boards in a "Combos:" section).
 | oldman/endgame | [oldman_endgame.svg](oldman_endgame.svg) |
 | bastardkb/charybdis 3x5 | [bastardkb_charybdis_3x5_elitec.svg](bastardkb_charybdis_3x5_elitec.svg) |
 | IFKB Ergolite (if_rec firmware) | [ergolite.svg](ergolite.svg) |
+| ieneko58o | [ieneko58o.svg](ieneko58o.svg) |
 
 ## Regenerating
 

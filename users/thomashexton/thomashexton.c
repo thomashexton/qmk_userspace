@@ -174,3 +174,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     return true; // Continue processing for all other keycodes
 }
+
+#ifdef COMBO_ENABLE
+// Combos (Esc on W+F, etc.) are typing conveniences — disable them on the
+// game layer so held movement chords cannot fire them mid-combat.
+bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
+    (void)combo_index;
+    (void)combo;
+    (void)keycode;
+    (void)record;
+    return !layer_state_is(LAYER_GAME);
+}
+#endif

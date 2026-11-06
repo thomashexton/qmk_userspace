@@ -30,7 +30,7 @@ LAYER_NAMES=(Base Raise Lower Pointer Symbol Game)
 BOARDS=(
   "oldman/endgame|oldman/endgame|Base Raise Lower Symbol"
   "bastardkb/charybdis/3x5/elitec|bastardkb/charybdis/3x5|Base Raise Lower Symbol Pointer"
-  "ieneko58o|ieneko58o|Base Raise Lower Symbol"
+  "ieneko58o|ieneko58o|Base Raise Lower Symbol Game"
 )
 
 draw_board() {

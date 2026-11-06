@@ -1,12 +1,14 @@
 /* Ieneko58O (5x12 unibody ortho) — Thomas's userspace keymap.
  *
- * Deliberately diverges from the splits in this userspace: with 58 keys there
- * is no key scarcity to justify home-row mods, so the alphas are plain letters
- * and the modifiers live on the bottom row and the left outer column.
+ * Colemak-DH base with home-row mods. Thumb rule, shared by every board in
+ * this userspace: the key under the resting thumb is RAISE (numbers) on the
+ * left and LOWER (nav) on the right, with the layer's content always on the
+ * opposite hand.
  *
- * Thumb rule, shared by every board in this userspace: the key under the resting
- * thumb is RAISE (numbers) on the left and LOWER (nav) on the right, with the
- * layer's content always on the opposite hand.
+ * LAYER_GAME is a sticky WoW layer (Del toggles GAME ↔ BASE): same Colemak
+ * letters but plain (no HRM) so FRST can be held for movement. Primary
+ * Ctrl/Shift/Alt live on the Swiftpoint Z3; the left-column Ctrl/Shift and
+ * left-outer-thumb Alt are keyboard-side backups. Esc sits on grave.
  */
 #include QMK_KEYBOARD_H
 #include "thomashexton.h"
@@ -56,7 +58,7 @@ const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM = LAYOUT(
  * ────────────────────────────────────────────────────────────────────────── */
 // clang-format off
 #define COLEMAK_DH_LAYER                                                                                  \
-    KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_DEL,  \
+    KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    TO(LAYER_GAME), \
     KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_J,    KC_L,    KC_U,    KC_Y,    KC_QUOT, KC_BSPC, \
     KC_LCTL, TH_HRM_LEFT(A, R, S, T),          KC_G,    KC_M,    TH_HRM_RIGHT(N, E, I, O),          KC_ENT,  \
     KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,    KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT, \
@@ -88,11 +90,21 @@ const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM = LAYOUT(
     _______, KC_LBRC, KC_LCBR, KC_LABK, KC_LPRN, XXXXXXX, XXXXXXX, KC_RPRN, KC_RABK, KC_RCBR, KC_RBRC, _______, \
     _______, _______, _______, _______,       _______,        _______,      _______, _______, _______, _______
 
+/* GAME — sticky WoW layer. Plain Colemak so FRST holds are instant movement;
+ * no raise/lower thumbs. Del returns to base. */
+#define GAME_LAYER                                                                                        \
+    KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    TO(LAYER_BASE), \
+    KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_J,    KC_L,    KC_U,    KC_Y,    KC_QUOT, KC_BSPC, \
+    KC_LCTL, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,    KC_M,    KC_N,    KC_E,    KC_I,    KC_O,    KC_ENT,  \
+    KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,    KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT, \
+    XXXXXXX, XXXXXXX, XXXXXXX, KC_LALT, KC_SPC,           KC_BSPC,          KC_ENT,  XXXXXXX, XXXXXXX, XXXXXXX
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LAYER_BASE]   = LAYOUT_wrapper(COLEMAK_DH_LAYER),
     [LAYER_RAISE]  = LAYOUT_wrapper(RAISE_LAYER),
     [LAYER_LOWER]  = LAYOUT_wrapper(LOWER_LAYER),
-    [LAYER_SYMBOL] = LAYOUT_wrapper(SYMBOL_LAYER)
+    [LAYER_SYMBOL] = LAYOUT_wrapper(SYMBOL_LAYER),
+    [LAYER_GAME]   = LAYOUT_wrapper(GAME_LAYER)
 };
 // clang-format on
 
