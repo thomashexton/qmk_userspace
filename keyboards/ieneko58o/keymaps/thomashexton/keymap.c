@@ -111,13 +111,54 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* ────────────────────────────────────────────────────────────────────────── *
  *  CALLBACKS
  * ────────────────────────────────────────────────────────────────────────── */
+#ifdef RGB_MATRIX_ENABLE
+// WoW logo gold (#C8A951 → HSV) at a gentle brightness so it marks the layer
+// without lighting the desk. Hue/sat match the metallic wordmark; val is dimmed.
+static const hsv_t GAME_LAYER_HSV = {31, 152, 88};
+
+static bool    game_leds_active;
+static uint8_t saved_rgb_mode;
+static uint8_t saved_rgb_speed;
+static hsv_t   saved_rgb_hsv;
+
+static void game_leds_on(void) {
+    if (!game_leds_active) {
+        saved_rgb_mode   = rgb_matrix_get_mode();
+        saved_rgb_speed  = rgb_matrix_get_speed();
+        saved_rgb_hsv    = rgb_matrix_get_hsv();
+        game_leds_active = true;
+    }
+    // Mode and color changes are ignored while the matrix is disabled, and enabling
+    // it resumes the EEPROM effect (the bright rainbow). Enable first, then replace it.
+    rgb_matrix_enable_noeeprom();
+    rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
+    rgb_matrix_sethsv_noeeprom(GAME_LAYER_HSV.h, GAME_LAYER_HSV.s, GAME_LAYER_HSV.v);
+}
+
+static void game_leds_off(void) {
+    if (!game_leds_active) {
+        return;
+    }
+    rgb_matrix_mode_noeeprom(saved_rgb_mode);
+    rgb_matrix_set_speed_noeeprom(saved_rgb_speed);
+    rgb_matrix_sethsv_noeeprom(saved_rgb_hsv.h, saved_rgb_hsv.s, saved_rgb_hsv.v);
+    game_leds_active = false;
+}
+#endif
+
 layer_state_t layer_state_set_user(layer_state_t state) {
     state = update_tri_layer_state(state, LAYER_LOWER, LAYER_RAISE, LAYER_SYMBOL);
 #ifdef RGB_MATRIX_ENABLE
     // LEDs are a layer indicator only: dark on base, lit on any other layer.
-    if (get_highest_layer(state) == LAYER_BASE) {
+    // The game layer is painted WoW gold and restores the previous effect after.
+    const uint8_t layer = get_highest_layer(state);
+    if (layer == LAYER_BASE) {
+        game_leds_off();
         rgb_matrix_disable_noeeprom();
+    } else if (layer == LAYER_GAME) {
+        game_leds_on();
     } else {
+        game_leds_off();
         rgb_matrix_enable_noeeprom();
     }
 #endif
@@ -128,6 +169,20 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 // Boot into the base layer, so start dark rather than inheriting the EEPROM state.
 void keyboard_post_init_user(void) {
     rgb_matrix_disable_noeeprom();
+}
+
+// Paint over whatever effect is running. The EEPROM rainbow otherwise shows
+// through on the game layer, because enabling the matrix resumes that effect.
+bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+    if (get_highest_layer(layer_state) != LAYER_GAME) {
+        return true;
+    }
+
+    const rgb_t rgb = hsv_to_rgb(GAME_LAYER_HSV);
+    for (uint8_t i = led_min; i < led_max; i++) {
+        rgb_matrix_set_color(i, rgb.r, rgb.g, rgb.b);
+    }
+    return false;
 }
 #endif
 

@@ -42,6 +42,9 @@
 #define COMBO_TERM 60        // Time window for combo activation (default is 50ms, increased for easier timing)
 #define COMBO_MUST_HOLD_MODS // Mods must be held during combo activation
 #define COMBO_HOLD_TERM 150  // How long to hold combo for repeat/hold actions
+// Without this, combo_should_trigger() in thomashexton.c is linked but never
+// called, so the game-layer combo block (W+F → Esc) does not run.
+#define COMBO_SHOULD_TRIGGER
 
 // Pointing-device acceleration curve (drashna/pointing_device_accel). Only the
 // Charybdis uses the module.
